@@ -114,14 +114,9 @@ public class JTelaJogar extends JFrame {
 														.addComponent(
 																btnNewButton))));
 		contentPane.setLayout(gl_contentPane);
+		//TODO: Arrumar texto e tamanho da tela bloqueada
 		//textArea.setEnabled(false);
 		
-	}
-
-	public void appendText(String str) {
-		// TODO: Possivel método que faça com que seja digitado no texField e
-		// apareça no textArea.
-		// Função: acrescenta o texto especificado
 	}
 
 	private class SwingActionEnter extends AbstractAction {
