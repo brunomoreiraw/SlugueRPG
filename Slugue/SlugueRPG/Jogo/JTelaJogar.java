@@ -19,8 +19,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import java.util.Scanner;
-
 public class JTelaJogar extends JFrame {
 
 	/**
@@ -55,7 +53,7 @@ public class JTelaJogar extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				"C:\\Users\\Dudu\\Desktop\\G12_RPG.png"));
 		setTitle("Batalha SlugeMUD");
-		setBounds(100, 100, 750, 300);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -64,10 +62,8 @@ public class JTelaJogar extends JFrame {
 		 * Iremos usar estes métodos futuramente.
 		 */
 		// textField.setColumns(10);
-		SwingActionEnter st = new SwingActionEnter();
-		 textArea.setText("Seja Bem Vindo ao Jogo "+"\n"
-		+"Digite o nome do seu Personagem:"); // Função: altera o string do textArea.
-		 
+		// textArea.setText("vfdso"); // Função: altera o string do textArea.
+
 		JButton btnNewButton = new JButton("Enter");
 		btnNewButton.setAction(actionEnter);
 
@@ -138,7 +134,7 @@ public class JTelaJogar extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			String texto = textField.getText();
-			textArea.append("\n"+ texto + "\n"); // acrescenta o conteúdo do textField
+			textArea.append(texto + "\n"); // acrescenta o conteúdo do textField
 											// no textArea.
 			textField.setText("");
 			//TODO: Fazer com que 
