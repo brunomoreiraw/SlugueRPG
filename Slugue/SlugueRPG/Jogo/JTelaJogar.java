@@ -58,11 +58,9 @@ public class JTelaJogar extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		/*
-		 * Iremos usar estes métodos futuramente.
-		 */
-		// textField.setColumns(10);
-		// textArea.setText("vfdso"); // Função: altera o string do textArea.
+		textArea.append("\t Seja Bem-Vindo ao Jogo\n" + "\n");
+
+		textArea.append("Digite o nome do seu personagem:\n");
 
 		JButton btnNewButton = new JButton("Enter");
 		btnNewButton.setAction(actionEnter);
@@ -114,30 +112,64 @@ public class JTelaJogar extends JFrame {
 														.addComponent(
 																btnNewButton))));
 		contentPane.setLayout(gl_contentPane);
-		//TODO: Arrumar texto e tamanho da tela bloqueada
-		//textArea.setEnabled(false);
-		
+		// TODO: Arrumar texto e tamanho da tela bloqueada
+		// textArea.setEnabled(false);
+
 	}
 
 	private class SwingActionEnter extends AbstractAction {
 		/**
-		 * Ação do botão Enter. Está incompleta
+		 * Ação do botão Enter. Está incompleta 
+		 * TODO: barra de rolagem no
+		 * textArea. 
+		 * TODO: continuar os dialogos...
 		 */
 		private static final long serialVersionUID = 1L;
+		private int etapa;
 
-		
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
 			putValue(SHORT_DESCRIPTION, "Some short description");
+			etapa = 0;
 		}
 
 		public void actionPerformed(ActionEvent e) {
 
-			String texto = textField.getText();
-			textArea.append(texto + "\n"); // acrescenta o conteúdo do textField
-											// no textArea.
-			textField.setText("");
-			//TODO: Fazer com que 
+			if (etapa == 0) {
+				String texto = textField.getText();
+				textArea.append(texto + "\n"); // acrescenta o conteúdo do
+												// textField
+												// no textArea.
+				textField.setText("");
+
+				String[] palavras = texto.split(" ");
+
+				texto = palavras[0];
+				textArea.append("Seu nome agora é " + texto + " \n");
+				textArea.append("Qual classe você quer jogar? \n");
+				etapa++;
+			} else if (etapa == 1) {
+				String texto = textField.getText();
+				textArea.append(texto + "\n");
+
+				textArea.append("Sua classe agora é " + texto + " \n");
+				textArea.append("Agora, você está pronto para jogar\n");
+
+				textArea.append("\n Neste momento você está localizado na região de Urboba, \n um grande centro de comércio do século XVIII");
+				textArea.append("\n Quer andar para conhecer a região?");
+				textField.setText(" ");
+				etapa++;
+			}
+
+			else if (etapa == 2) {
+
+				String texto = textField.getText();
+				textArea.append(texto + "\n");
+
+				textField.setText(" ");
+				textField.setEnabled(false); // bloqueia o textField.
+
+			}
 		}
 	}
 }
