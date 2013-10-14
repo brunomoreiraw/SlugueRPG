@@ -1,175 +1,174 @@
 package Jogo;
 
+
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.Toolkit;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextArea;
-
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class JTelaJogar extends JFrame {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JPanel pane;
 	private final Action actionEnter = new SwingActionEnter();
-	private JTextArea textArea = new JTextArea(100, 100);
-	private JTextField textField = new JTextField(200);
-
+	private JTextArea campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
+	private JTextField campoJogador = new JTextField(0);
+	
+	JScrollPane scrollpane = new JScrollPane(campoMestre);
+	
 	/**
-	 * Launch the application.
+	 * Criação da Tela de Aventura
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args){
+				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JTelaJogar frame = new JTelaJogar();
-					frame.setVisible(true);
+					JTelaJogar tela = new JTelaJogar();
+					tela.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public JTelaJogar() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\Dudu\\Desktop\\G12_RPG.png"));
-		setTitle("Batalha SlugeMUD");
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-
-		textArea.append("\t Seja Bem-Vindo ao Jogo\n" + "\n");
-
-		textArea.append("Digite o nome do seu personagem:\n");
-
-		JButton btnNewButton = new JButton("Enter");
-		btnNewButton.setAction(actionEnter);
-
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane
+	
+	public JTelaJogar(){
+		pane = new JPanel();
+		pane.setBorder ( new TitledBorder ( new EtchedBorder(), "Aventura" ) );
+		//pane.setBorder(new EmptyBorder(12, 5, 10, 10));	
+		setContentPane(pane);
+		
+		setBounds(380, 130, 650, 400);
+		setTitle("SlugueRPG - Aventura");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JButton btnEnter = new JButton("Enter");
+		btnEnter.setAction(actionEnter);
+		
+		campoMestre.setEnabled(false);
+		campoMestre.append("\nDigite o nome do seu personagem:\n");
+		
+		/**
+		 * Formatação Textos
+		 */
+		campoJogador.setFont(new Font("arial", Font.BOLD, 12));
+		campoJogador.setForeground(Color.red);
+		campoMestre.setBackground(Color.black);
+		campoMestre.setDisabledTextColor(Color.green);
+		
+		
+		
+		
+		GroupLayout aventura = new GroupLayout(pane);
+		aventura.setHorizontalGroup(aventura
 				.createParallelGroup(Alignment.LEADING)
 				.addGroup(
 						Alignment.TRAILING,
-						gl_contentPane
-								.createSequentialGroup()
-								.addComponent(textField,
-										GroupLayout.DEFAULT_SIZE, 345,
-										Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(btnNewButton,
-										GroupLayout.PREFERRED_SIZE, 69,
-										GroupLayout.PREFERRED_SIZE))
+						aventura
+							.createSequentialGroup()
+							.addComponent(campoJogador,
+									GroupLayout.PREFERRED_SIZE, 500,
+									GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnEnter,
+									GroupLayout.PREFERRED_SIZE, 100,
+									GroupLayout.PREFERRED_SIZE))
 				.addGroup(
-						gl_contentPane
-								.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(textArea,
-										GroupLayout.PREFERRED_SIZE, 404,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		gl_contentPane
-				.setVerticalGroup(gl_contentPane
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addComponent(textArea,
+						aventura
+							.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(campoMestre,
+									GroupLayout.PREFERRED_SIZE, 600,
+									GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE,
+									Short.MAX_VALUE)));
+		aventura.setVerticalGroup(aventura
+				.createParallelGroup(Alignment.TRAILING)
+				.addGroup(
+						aventura
+							.createSequentialGroup()
+							.addComponent(campoMestre,
+									GroupLayout.PREFERRED_SIZE,
+									300, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(
+									ComponentPlacement.RELATED, 9,
+									Short.MAX_VALUE)
+							.addGroup(
+									aventura
+										.createParallelGroup(
+												Alignment.BASELINE)
+										.addComponent(
+												campoJogador,
 												GroupLayout.PREFERRED_SIZE,
-												220, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												ComponentPlacement.RELATED, 9,
-												Short.MAX_VALUE)
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																textField,
-																GroupLayout.PREFERRED_SIZE,
-																21,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btnNewButton))));
-		contentPane.setLayout(gl_contentPane);
+												26,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(
+												btnEnter))));
+		pane.setLayout(aventura);
 		// TODO: Arrumar texto e tamanho da tela bloqueada
-		// textArea.setEnabled(false);
-
+		
 	}
-
+	
 	private class SwingActionEnter extends AbstractAction {
-		/**
-		 * Ação do botão Enter. Está incompleta 
-		 * TODO: barra de rolagem no
-		 * textArea. 
-		 * TODO: continuar os dialogos...
-		 */
+		//TODO: Barra de Rolagem!
 		private static final long serialVersionUID = 1L;
 		private int etapa;
+		private String temp;
 
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			putValue(SHORT_DESCRIPTION, "Confirme");
 			etapa = 0;
+			temp = "Sem nome definido";
 		}
 
 		public void actionPerformed(ActionEvent e) {
 
 			if (etapa == 0) {
-				String texto = textField.getText();
-				textArea.append(texto + "\n"); // acrescenta o conteúdo do
-												// textField
-												// no textArea.
-				textField.setText("");
-
+				String texto = campoJogador.getText();
+				campoJogador.setText("");
+				
 				String[] palavras = texto.split(" ");
 
 				texto = palavras[0];
-				textArea.append("Seu nome agora é " + texto + " \n");
-				textArea.append("Qual classe você quer jogar? \n");
+				campoMestre.append("Seu nome agora é " + texto + ".\n");
+				campoMestre.append("\nQual classe você quer ser? \n");
 				etapa++;
+				temp = texto;
+				
 			} else if (etapa == 1) {
-				String texto = textField.getText();
-				textArea.append(texto + "\n");
-
-				textArea.append("Sua classe agora é " + texto + " \n");
-				textArea.append("Agora, você está pronto para jogar\n");
-
-				textArea.append("\n Neste momento você está localizado na região de Urboba, \n um grande centro de comércio do século XVIII");
-				textArea.append("\n Quer andar para conhecer a região?");
-				textField.setText(" ");
+				String texto = campoJogador.getText();
+				campoMestre.append(temp + " é um " + texto + " iniciante.\n");
+				campoMestre.append("\nAgora, você está pronto para jogar!");
+				campoMestre.append("\nNeste momento você está localizado na região de Urboba, \n um grande centro de comércio do século XVIII.");
+				campoMestre.append("\nQuer andar para conhecer a região?");
+				campoJogador.setText(" ");
 				etapa++;
 			}
 
 			else if (etapa == 2) {
+				String texto = campoJogador.getText();
+				campoMestre.append(texto + "\n");
 
-				String texto = textField.getText();
-				textArea.append(texto + "\n");
-
-				textField.setText(" ");
-				textField.setEnabled(false); // bloqueia o textField.
+				campoJogador.setText(" ");
 
 			}
 		}
 	}
+		
 }
