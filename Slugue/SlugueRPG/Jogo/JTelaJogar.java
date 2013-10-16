@@ -19,6 +19,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import java.util.Arrays;
 
 public class JTelaJogar extends JFrame {
 	
@@ -136,44 +137,36 @@ public class JTelaJogar extends JFrame {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-
+			String texto = campoJogador.getText();
+			//String[] palavras = texto.split(" ");
+			
 			if (etapa == 0) {
-				String texto = campoJogador.getText();
-				campoJogador.setText("");
-				
-				String[] palavras = texto.split(" ");
-
-				texto = palavras[0];
 				campoMestre.append("Seu nome agora é " + texto + ".\n");
 				campoMestre.append("\nQual classe você quer ser? \n");
 				etapa++;
 				temp = texto;
 				
 			} else if (etapa == 1) {
-				String texto = campoJogador.getText();
 				campoMestre.append(temp + ", é um " + texto + " iniciante.\n");
 				campoMestre.append("\nAgora, você está pronto para se aventurar!");
 				campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média.");
 				campoMestre.append("\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
-				campoJogador.setText(" ");
 				etapa++;
 			}
 
 			else if (etapa == 2) {
-				temp = campoJogador.getText();
-				campoMestre.append("\nVocê segue pela trilha" + temp + ".\n");
-				campoJogador.setText("");
-				if (temp.equals("norte")){
+				campoMestre.append("\nVocê segue pela trilha " + texto + ".\n");
+				if (texto.equals("norte")){
 					campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
 							+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar?");
 				} 
-				if(temp.equals("sul")){
+				if(texto.equals("sul")){
 					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
 							+ "A frente você enxerga um grande portão, possivelmente de Urboba.");
 				}
 				etapa++;
 			}
-			
+			campoJogador.setText(" ");
 		}
 	}
 		
