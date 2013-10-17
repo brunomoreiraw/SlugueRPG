@@ -1,7 +1,6 @@
 package Jogo;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
@@ -12,14 +11,13 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+//TODO import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import java.util.Arrays;
 
 public class JTelaJogar extends JFrame {
 	
@@ -29,33 +27,18 @@ public class JTelaJogar extends JFrame {
 	private JTextArea campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
 	private JTextField campoJogador = new JTextField(0);
 	
-	JScrollPane scrollpane = new JScrollPane(campoMestre);
-	
 	/**
 	 * Criação da Tela de Aventura
 	 */
-	public static void main(String[] args){
-				
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JTelaJogar tela = new JTelaJogar();
-					tela.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
+		
 	public JTelaJogar(){
 		pane = new JPanel();
 		pane.setBorder ( new TitledBorder ( new EtchedBorder(), "Aventura" ) );
-		//pane.setBorder(new EmptyBorder(12, 5, 10, 10));
 		campoMestre.setBorder(new EmptyBorder(2, 3, 5, 5));
 		setContentPane(pane);
+		//TODO JScrollPane scrollpane = new JScrollPane(pane);
 		
-		setBounds(380, 130, 750, 400);
+		setBounds(320, 130, 750, 400);
 		setTitle("SlugueRPG - Aventura");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -119,12 +102,10 @@ public class JTelaJogar extends JFrame {
 										.addComponent(
 												btnEnter))));
 		pane.setLayout(aventura);
-		// TODO: Arrumar texto e tamanho da tela bloqueada
 		
 	}
 	
 	private class SwingActionEnter extends AbstractAction {
-		//TODO: Barra de Rolagem!
 		private static final long serialVersionUID = 1L;
 		private int etapa;
 		private String temp;
@@ -139,7 +120,7 @@ public class JTelaJogar extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String texto = campoJogador.getText();
 			//String[] palavras = texto.split(" ");
-			
+			texto = texto.trim();
 			if (etapa == 0) {
 				campoMestre.append("Seu nome agora é " + texto + ".\n");
 				campoMestre.append("\nQual classe você quer ser? \n");
@@ -148,9 +129,9 @@ public class JTelaJogar extends JFrame {
 				
 			} else if (etapa == 1) {
 				campoMestre.append(temp + ", é um " + texto + " iniciante.\n");
-				campoMestre.append("\nAgora, você está pronto para se aventurar!");
-				campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média.");
-				campoMestre.append("\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
+				campoMestre.append("\nAgora, você está pronto para se aventurar!"
+							+ "\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
+							+ "\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
 				etapa++;
 			}
 
@@ -158,15 +139,15 @@ public class JTelaJogar extends JFrame {
 				campoMestre.append("\nVocê segue pela trilha " + texto + ".\n");
 				if (texto.equals("norte")){
 					campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
-							+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar?");
+								+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar?");
 				} 
 				if(texto.equals("sul")){
 					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
-							+ "A frente você enxerga um grande portão, possivelmente de Urboba.");
+								+ "A frente você enxerga um grande portão, possivelmente de Urboba.");
 				}
 				etapa++;
 			}
-			campoJogador.setText(" ");
+			campoJogador.setText("");
 		}
 	}
 		
