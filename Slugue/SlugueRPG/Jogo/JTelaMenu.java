@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -23,6 +22,7 @@ import javax.swing.border.TitledBorder;
 		private final Action criarFicha = new SwingActionCriarFicha();
 		private final Action jogarAventura = new SwingActionJogarAventura();
 		private final Action ready = new SwingActionReady();
+		private JTextField personagemNome;
 		
 	public static void main(String[] args){
 		
@@ -42,7 +42,6 @@ import javax.swing.border.TitledBorder;
 	public JTelaMenu(){
 		paneMenu = new JPanel();
 		paneMenu.setBorder ( new TitledBorder ( new EtchedBorder(), "Slugue RPG" ) );
-		//campoMestre.setBorder(new EmptyBorder(2, 3, 5, 5));
 		setContentPane(paneMenu);
 		
 		setBounds(480, 150, 400, 200);
@@ -102,23 +101,21 @@ import javax.swing.border.TitledBorder;
 				nomePersonagem.setForeground(Color.blue);
 				nomePersonagem.setBackground(Color.white);
 				
-				JTextField textField = new JTextField();
-				textField.setBounds(84, 95, 150, 25);
-				textField.setFont(new Font("arial", Font.BOLD, 12));
-				paneMenu.add(textField);
+				personagemNome = new JTextField();
+				personagemNome.setBounds(84, 95, 150, 25);
+				personagemNome.setFont(new Font("arial", Font.BOLD, 12));
+				paneMenu.add(personagemNome);
 				
-				textField.setForeground(Color.red);
-				textField.setBackground(Color.white);
-				textField.setBorder(BorderFactory.createLineBorder(Color.black));
+				personagemNome.setForeground(Color.red);
+				personagemNome.setBackground(Color.white);
+				personagemNome.setBorder(BorderFactory.createLineBorder(Color.black));
 				
 				JButton btnOk = new JButton("OK");
 				btnOk.setAction(ready);
 				btnOk.setBounds(240, 95, 60, 25);
 				paneMenu.add(btnOk);
-				
 			}
-		}
-		
+		}		
 			/**
 			 * Botão para Pronto para Jogo
 			 */
@@ -132,7 +129,9 @@ import javax.swing.border.TitledBorder;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JTelaJogar telaJogar = new JTelaJogar();
+					String nome = personagemNome.getText();
+					Personagem player = new Personagem(nome, "Guerreiro", 7, 6, 8);
+					JTelaJogar telaJogar = new JTelaJogar(player);
 					telaJogar.setVisible(true);					
 				}
 			}			

@@ -24,18 +24,22 @@ public class JTelaJogar extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel pane;
 	private final Action actionEnter = new SwingActionEnter();
+	private final Action actionFicha = new SwingActionFicha();
 	private JTextArea campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
 	private JTextField campoJogador = new JTextField(0);
+	private Personagem player;
 	
 	/**
 	 * Criação da Tela de Aventura
 	 */
 		
-	public JTelaJogar(){
-		pane = new JPanel();
+	public JTelaJogar(Personagem player){
+		this.player = player;
+		this.pane = new JPanel();
 		pane.setBorder ( new TitledBorder ( new EtchedBorder(), "Aventura" ) );
 		campoMestre.setBorder(new EmptyBorder(2, 3, 5, 5));
 		setContentPane(pane);
+		
 		//TODO JScrollPane scrollpane = new JScrollPane(pane);
 		
 		setBounds(320, 130, 750, 400);
@@ -45,8 +49,13 @@ public class JTelaJogar extends JFrame {
 		JButton btnEnter = new JButton("Enter");
 		btnEnter.setAction(actionEnter);
 		
+		JButton btnFicha = new JButton("Ficha");
+		btnFicha.setAction(actionFicha);
+		btnFicha.setBounds(5, 328, 87, 25);
+		pane.add(btnFicha);
+		
 		campoMestre.setEnabled(false);
-		campoMestre.append("\nDigite o nome do seu personagem:\n");
+		campoMestre.append("\n" + player.getNome() + ", é um " + player.getClasse() + " iniciante. Deseja iniciar a aventura?\n" );
 		
 		/**
 		 * Formatação Textos
@@ -64,7 +73,7 @@ public class JTelaJogar extends JFrame {
 						aventura
 							.createSequentialGroup()
 							.addComponent(campoJogador,
-									GroupLayout.PREFERRED_SIZE, 600,
+									GroupLayout.PREFERRED_SIZE, 513,
 									GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnEnter,
@@ -105,49 +114,81 @@ public class JTelaJogar extends JFrame {
 		
 	}
 	
+	/**
+	 * Botão Enter, ação para o CampoJogador
+	 */	
 	private class SwingActionEnter extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 		private int etapa;
-		private String temp;
 
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
 			putValue(SHORT_DESCRIPTION, "Confirme");
 			etapa = 0;
-			temp = "Sem nome definido";
+			//temp = "Sem nome definido";
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			String texto = campoJogador.getText();
 			//String[] palavras = texto.split(" ");
-			texto = texto.trim();
+			//texto = texto.trim();
 			if (etapa == 0) {
-				campoMestre.append("Seu nome agora é " + texto + ".\n");
-				campoMestre.append("\nQual classe você quer ser? \n");
-				etapa++;
-				temp = texto;
-				
-			} else if (etapa == 1) {
-				campoMestre.append(temp + ", é um " + texto + " iniciante.\n");
-				campoMestre.append("\nAgora, você está pronto para se aventurar!"
-							+ "\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
+				if(texto.equals("Sim")){
+					campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
 							+ "\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
-				etapa++;
-			}
-
-			else if (etapa == 2) {
+					etapa++;
+				}
+				if(texto.equals("Não")){
+					campoMestre.append("\n" + player.getNome() + ", o tempo está passando." + " Vamos iniciar a aventura?\n");
+					etapa = 0;
+				}
+						
+			} else if (etapa == 1) {
 				campoMestre.append("\nVocê segue pela trilha " + texto + ".\n");
-				if (texto.equals("norte")){
+				if (texto.equals("Norte")){
 					campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
-								+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar?");
+								+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar ou seguir em frente?\n");
 				} 
-				if(texto.equals("sul")){
+				if(texto.equals("Sul")){
 					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
 								+ "A frente você enxerga um grande portão, possivelmente de Urboba.");
 				}
 				etapa++;
+			}else if (etapa == 2) {
+				if(texto.equals("Investigar poço")){
+					campoMestre.append("\nAo se aproximar do poço, você ouve algo estranho, algo está ecoando lá dentro."
+							+ "\nNo momento em que você põe sua cabeça, você percebe algo subindo, "
+							+ "Uma Aranha gigante está vindo em sua direção, verticalmente.\n");
+					etapa++;
+				}
+				if(texto.equals("Seguir em frente")){
+					campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
+							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas. \nSeus olhos verdes percebem sua presença.\n");
+					etapa++;
+				}
+			}
+			else if (etapa == 3){
+				campoMestre.append(player.toString());
 			}
 			campoJogador.setText("");
+		}		
+	}
+	
+	/**
+	 * Botão para mostrar ficha do personagem
+	 */
+	private class SwingActionFicha extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionFicha() {
+			putValue(NAME, "Ficha");
+			putValue(SHORT_DESCRIPTION, "Mostrar");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFicha f = new JFicha(player);
+			f.setVisible(true);	
 		}
 	}
 		
