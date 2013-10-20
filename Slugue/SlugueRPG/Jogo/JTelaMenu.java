@@ -75,7 +75,9 @@ import javax.swing.border.TitledBorder;
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent e) {
+			JTelaFicha telaFicha = new JTelaFicha();
+			telaFicha.setVisible(true);	
 			
 		}
 	}

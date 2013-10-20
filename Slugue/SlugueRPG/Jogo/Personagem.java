@@ -8,7 +8,9 @@ public class Personagem {
 	private int forc;
 	private int agi;
 	private int sab;
-	private int ataque;
+	private int ataqueCC;
+	private int ataqueAD;
+	private int ataqueM;
 	private int pv;
 	private int pm;
 	
@@ -18,9 +20,29 @@ public class Personagem {
 		setForc(forc);
 		setAgi(agi);
 		setSab(sab);
-		this.pv = forc * 2;
-		this.pm = sab * 3;
-		this.ataque = forc;
+		setPm(sab);
+		setAtaqueCC(forc);
+		setAtaqueAD(agi);
+		setAtaqueM(sab);		
+		if(classe.equals("Guerreiro")){
+			setAtaqueCC(forc + 2);
+			setPv(forc + 10);
+		}
+		if(classe.equals("Ranger")){
+			setAtaqueAD(agi + 2);
+			setPv(forc + 8);
+		}
+		if(classe.equals("Mago")){
+			setAtaqueM(sab + 2);
+			setPm(sab + 10);
+			setPv(forc + 4);
+		}
+		if(classe.equals("Clérigo")){
+			setAtaqueCC(forc + 1);
+			setAtaqueM(sab + 1);
+			setPm(sab + 5);
+			setPv(forc + 8);
+		}
 	}
 	
 	
@@ -36,11 +58,11 @@ public class Personagem {
 	public void setPv(int pv) {
 		this.pv = pv;
 	}
-	public int getAtaque() {
-		return ataque;
+	public int getPm() {
+		return pm;
 	}
-	public void setAtaque(int ataque) {
-		this.ataque = ataque;
+	public void setPm(int pm) {
+		this.pm = pm;
 	}
 	public int getForc() {
 		return forc;
@@ -63,10 +85,28 @@ public class Personagem {
 	public String getClasse() {
 		return classe;
 	}
+	public int getAtaqueCC() {
+		return ataqueCC;
+	}
+	public void setAtaqueCC(int ataqueCC) {
+		this.ataqueCC = ataqueCC;
+	}
+	public int getAtaqueAD() {
+		return ataqueAD;
+	}
+	public void setAtaqueAD(int ataqueAD) {
+		this.ataqueAD = ataqueAD;
+	}
+	public int getAtaqueM() {
+		return ataqueM;
+	}
+	public void setAtaqueM(int ataqueM) {
+		this.ataqueM = ataqueM;
+	}
 
 	
 	public void atacar(Enemy e){
-		int dano = e.getPvsEnemy() - ataque;
+		int dano = e.getPvsEnemy() - ataqueCC;
 		e.setPvsEnemy(dano);
 	}
 	
@@ -79,8 +119,6 @@ public class Personagem {
 				"Pontos de Vida: " + pv + "\n" +
 				"Pontos de Magia: " + pm + "\n" ;				
 	}
-
-
 }
 
 
