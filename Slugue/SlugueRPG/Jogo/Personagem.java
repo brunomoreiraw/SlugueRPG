@@ -1,5 +1,7 @@
 package Jogo;
 
+import java.util.Random;
+
 public class Personagem {
 	
 	private String nome;
@@ -11,10 +13,12 @@ public class Personagem {
 	private int ataqueCC;
 	private int ataqueAD;
 	private int ataqueM;
+	private int defesa;
 	private int pv;
 	private int pm;
+	private Arma arma;
 	
-	public Personagem(String nome, String classe, int forc, int agi, int sab){
+	public Personagem(String nome, String classe, int forc, int agi, int sab, Arma arma){
 		setNome(nome);
 		this.classe = classe;
 		setForc(forc);
@@ -23,7 +27,9 @@ public class Personagem {
 		setPm(sab);
 		setAtaqueCC(forc);
 		setAtaqueAD(agi);
-		setAtaqueM(sab);		
+		setAtaqueM(sab);
+		setDefesa(agi);
+		this.arma = arma;
 		if(classe.equals("Guerreiro")){
 			setAtaqueCC(forc + 2);
 			setPv(forc + 10);
@@ -45,7 +51,7 @@ public class Personagem {
 		}
 	}
 	
-	
+	//Get & Sets
 	public String getNome() {
 		return nome;
 	}
@@ -103,21 +109,62 @@ public class Personagem {
 	public void setAtaqueM(int ataqueM) {
 		this.ataqueM = ataqueM;
 	}
-
+	public int getDefesa() {
+		return defesa;
+	}
+	public void setDefesa(int def) {
+		this.defesa = def + 14;
+	}
+	public Arma getArma() {
+		return arma;
+	}
+	public void setArma(Arma a) {
+		this.arma = a;
+	}
+	//Get & Sets
+	
+	Random rola = new Random();
+	
+	public int d20(){
+		int d20 = rola.nextInt(20);
+		
+		if(arma.getTipo() == 'c'){
+			d20 = d20 + ataqueCC;
+		}
+		if(arma.getTipo() == 'd'){
+			d20 = d20 + ataqueAD;
+		}
+		if(arma.getTipo() == 'm'){
+			d20 = d20 + ataqueM;
+		}
+		
+		return d20;
+	}
 	
 	public void atacar(Enemy e){
-		int dano = e.getPvsEnemy() - ataqueCC;
-		e.setPvsEnemy(dano);
+			int d = e.getPvsEnemy() - arma.danoInf(this);
+			
+			if(d > 0) {
+				e.setPvsEnemy(d);
+			}else e.setPvsEnemy(0);
 	}
 	
 	public String toString(){
-		return "Nome: " + nome + "\n" +
-				"Classe: " + classe + "\n" +
-				"Força: " + forc + "\n" +
-				"Agilidade: " + agi + "\n" +
-				"Sabedoria: " + sab + "\n" +
-				"Pontos de Vida: " + pv + "\n" +
-				"Pontos de Magia: " + pm + "\n" ;				
+		
+		return  "\n" +
+				" Nome: " + nome + "\n" +
+				" Classe: " + classe + "\n\n" +
+				" Força: " + forc + "\n" +
+				" Agilidade: " + agi + "\n" +
+				" Sabedoria: " + sab + "\n\n" +
+				" Pontos de Vida: " + pv + "\n" +
+				" Pontos de Magia: " + pm + "\n\n" +
+				" Ataque Curto: " + ataqueCC + "\n" +
+				" Ataque Distante: " + ataqueAD + "\n" +
+				" Ataque Mágico: " + ataqueM + "\n" +
+				" Defesa: " + defesa + "\n\n" +
+				" Arma: " + arma.getNome() + "\n" +
+				" Dano: 1d" + arma.getDano() + "\n";
 	}
 }
 

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import javax.swing.border.TitledBorder;
 		private final Action jogarAventura = new SwingActionJogarAventura();
 		private final Action ready = new SwingActionReady();
 		private JTextField personagemNome;
+		private JButton btnOk;
 		
 	public static void main(String[] args){
 		
@@ -43,6 +45,10 @@ import javax.swing.border.TitledBorder;
 		paneMenu = new JPanel();
 		paneMenu.setBorder ( new TitledBorder ( new EtchedBorder(), "Slugue RPG" ) );
 		setContentPane(paneMenu);
+		GroupLayout layout = new GroupLayout(paneMenu);
+		paneMenu.setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
 		
 		setBounds(480, 150, 400, 200);
 		setTitle("SlugueRPG - Aventura");
@@ -51,16 +57,23 @@ import javax.swing.border.TitledBorder;
 		
 		JButton btnCriar = new JButton("Criar Ficha");
 		btnCriar.setAction(criarFicha);
+		btnCriar.setBounds(69, 22, 110, 25);
 		paneMenu.add(btnCriar);
 		
 		JButton btnJogar = new JButton("Jogar Aventura");
 		btnJogar.setAction(jogarAventura);
+		btnJogar.setBounds(189, 22, 130, 25);
 		paneMenu.add(btnJogar);
 		
 		JLabel bemVindo = new JLabel("Seja Bem Vindo! Escolha uma das opções.");
-		bemVindo.setBounds(69, 50, 46, 14);
+		bemVindo.setBounds(74, 60, 246, 14);
 		paneMenu.add(bemVindo);
 		
+		btnOk = new JButton("OK");
+		btnOk.setAction(ready);
+		btnOk.setBounds(240, 115, 80, 25);
+		paneMenu.add(btnOk);
+		btnOk.setVisible(false);
 	}
 		
 	/**
@@ -97,25 +110,23 @@ import javax.swing.border.TitledBorder;
 			@Override
 			public void actionPerformed(ActionEvent e) {	
 				JLabel nomePersonagem = new JLabel("Com qual personagem deseja jogar?");
-				nomePersonagem.setBounds(84, 75, 250, 14);
+				nomePersonagem.setBounds(74, 95, 250, 14);
 				paneMenu.add(nomePersonagem);
 				
 				nomePersonagem.setForeground(Color.blue);
 				nomePersonagem.setBackground(Color.white);
 				
-				personagemNome = new JTextField();
-				personagemNome.setBounds(84, 95, 150, 25);
+				personagemNome = new JTextField(0);
+				personagemNome.setBounds(74, 115, 160, 25);
 				personagemNome.setFont(new Font("arial", Font.BOLD, 12));
+				personagemNome.setHorizontalAlignment(JTextField.CENTER);
 				paneMenu.add(personagemNome);
 				
-				personagemNome.setForeground(Color.red);
+				personagemNome.setForeground(Color.blue);
 				personagemNome.setBackground(Color.white);
 				personagemNome.setBorder(BorderFactory.createLineBorder(Color.black));
 				
-				JButton btnOk = new JButton("OK");
-				btnOk.setAction(ready);
-				btnOk.setBounds(240, 95, 60, 25);
-				paneMenu.add(btnOk);
+				btnOk.setVisible(true);
 			}
 		}		
 			/**
@@ -132,10 +143,12 @@ import javax.swing.border.TitledBorder;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String nome = personagemNome.getText();
-					Personagem player = new Personagem(nome, "Guerreiro", 7, 6, 8);
+					Arma espada = new Arma("Espada", 8, 'c');
+					Personagem player = new Personagem(nome, "Guerreiro", 3, 1, 4, espada);
 					JTelaJogar telaJogar = new JTelaJogar(player);
 					telaJogar.setVisible(true);					
 				}
+				
 			}			
 			
 	}

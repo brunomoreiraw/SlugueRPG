@@ -7,14 +7,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//TODO import javax.swing.JScrollPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -25,93 +23,59 @@ public class JTelaJogar extends JFrame {
 	private JPanel pane;
 	private final Action actionEnter = new SwingActionEnter();
 	private final Action actionFicha = new SwingActionFicha();
-	private JTextArea campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
-	private JTextField campoJogador = new JTextField(0);
+	private JTextArea campoMestre;
+	private JTextField campoJogador;
 	private Personagem player;
-	
-	/**
-	 * Criação da Tela de Aventura
-	 */
-		
+
 	public JTelaJogar(Personagem player){
 		this.player = player;
+		
+		//Panel
 		this.pane = new JPanel();
 		pane.setBorder ( new TitledBorder ( new EtchedBorder(), "Aventura" ) );
-		campoMestre.setBorder(new EmptyBorder(2, 3, 5, 5));
 		setContentPane(pane);
-		
-		//TODO JScrollPane scrollpane = new JScrollPane(pane);
-		
 		setBounds(320, 130, 750, 400);
 		setTitle("SlugueRPG - Aventura");
+		setBackground(Color.DARK_GRAY);
+		GroupLayout layout = new GroupLayout(pane);
+		pane.setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//Button Enter e Ficha		
 		JButton btnEnter = new JButton("Enter");
 		btnEnter.setAction(actionEnter);
+		btnEnter.setBounds(521, 325, 100, 25);
+		pane.add(btnEnter);
 		
 		JButton btnFicha = new JButton("Ficha");
 		btnFicha.setAction(actionFicha);
-		btnFicha.setBounds(5, 328, 87, 25);
+		btnFicha.setBounds(626, 325, 100, 25);
 		pane.add(btnFicha);
 		
+		//Campo Mestre
+		campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
+		campoMestre.setBorder(new EmptyBorder(4, 4, 4, 4));
 		campoMestre.setEnabled(false);
-		campoMestre.append("\n" + player.getNome() + ", é um " + player.getClasse() + " iniciante. Deseja iniciar a aventura?\n" );
-		
-		/**
-		 * Formatação Textos
-		 */
-		campoJogador.setFont(new Font("arial", Font.BOLD, 12));
-		campoJogador.setForeground(Color.red);
 		campoMestre.setBackground(Color.black);
 		campoMestre.setDisabledTextColor(Color.green);
+		campoMestre.append("\n" + player.getNome() + ", é um " + player.getClasse() + " iniciante. Deseja iniciar a aventura?\n" );
+		pane.add(campoMestre);
 		
-		GroupLayout aventura = new GroupLayout(pane);
-		aventura.setHorizontalGroup(aventura
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						Alignment.TRAILING,
-						aventura
-							.createSequentialGroup()
-							.addComponent(campoJogador,
-									GroupLayout.PREFERRED_SIZE, 513,
-									GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnEnter,
-									GroupLayout.PREFERRED_SIZE, 100,
-									GroupLayout.PREFERRED_SIZE))
-				.addGroup(
-						aventura
-							.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(campoMestre,
-									GroupLayout.PREFERRED_SIZE, 700,
-									GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(GroupLayout.DEFAULT_SIZE,
-									Short.MAX_VALUE)));
-		aventura.setVerticalGroup(aventura
-				.createParallelGroup(Alignment.TRAILING)
-				.addGroup(
-						aventura
-							.createSequentialGroup()
-							.addComponent(campoMestre,
-									GroupLayout.PREFERRED_SIZE,
-									300, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(
-									ComponentPlacement.RELATED, 9,
-									Short.MAX_VALUE)
-							.addGroup(
-									aventura
-										.createParallelGroup(
-												Alignment.BASELINE)
-										.addComponent(
-												campoJogador,
-												GroupLayout.PREFERRED_SIZE,
-												26,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(
-												btnEnter))));
-		pane.setLayout(aventura);
+		//Barra de Rolagem
+		JScrollPane scrollpane = new JScrollPane(campoMestre);
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollpane.setBounds(6, 18, 720, 300);
+		campoMestre.setCaretPosition(campoMestre.getDocument().getLength());
+		pane.add(scrollpane);
 		
+		//Campo Jogador
+		campoJogador = new JTextField(" ");
+		campoJogador.setFont(new Font("arial", Font.BOLD, 12));
+		campoJogador.setForeground(Color.blue);
+		campoJogador.setBounds(6, 325, 511, 26);
+		pane.add(campoJogador);
 	}
 	
 	/**
@@ -119,19 +83,21 @@ public class JTelaJogar extends JFrame {
 	 */	
 	private class SwingActionEnter extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+
 		private int etapa;
+		private int batalha;
 
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
 			putValue(SHORT_DESCRIPTION, "Confirme");
 			etapa = 0;
-			//temp = "Sem nome definido";
+			batalha = 0;
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			String texto = campoJogador.getText();
 			//String[] palavras = texto.split(" ");
-			//texto = texto.trim();
+			texto = texto.trim();
 			if (etapa == 0) {
 				if(texto.equals("Sim")){
 					campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
@@ -151,25 +117,105 @@ public class JTelaJogar extends JFrame {
 				} 
 				if(texto.equals("Sul")){
 					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
-								+ "A frente você enxerga um grande portão, possivelmente de Urboba.");
+								+ "A frente você enxerga um grande portão, possivelmente de Urboba. Continua...");
 				}
 				etapa++;
-			}else if (etapa == 2) {
+			}else if (etapa == 2) {		
 				if(texto.equals("Investigar poço")){
 					campoMestre.append("\nAo se aproximar do poço, você ouve algo estranho, algo está ecoando lá dentro."
 							+ "\nNo momento em que você põe sua cabeça, você percebe algo subindo, "
-							+ "Uma Aranha gigante está vindo em sua direção, verticalmente.\n");
-					etapa++;
+							+ "\nUma Aranha gigante está vindo em sua direção, verticalmente. Deseja sacar sua arma?\n");
+					etapa = 3;
 				}
 				if(texto.equals("Seguir em frente")){
 					campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
-							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas. \nSeus olhos verdes percebem sua presença.\n");
+							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas."
+							+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar arma?\n");
 					etapa++;
 				}
 			}
-			else if (etapa == 3){
-				campoMestre.append(player.toString());
-			}
+			else if (etapa == 3) {
+				Enemy aranha = new Enemy("Aranha Gigante", 14, 4, 14);
+				//BATALHA 00
+				if(batalha == 0){
+					
+					if(texto.equals("Sim")){
+						campoMestre.append("\nVocê saca sua/seu " + player.getArma().getNome() + ". Rolando iniciativa...\n");
+						int jogP = player.d20();
+						int jogE = aranha.d20();
+						campoMestre.append("\nSua rolagem: " + jogP + " | Rolagem do Inimigo: " + jogE + "\n");
+						if(jogP > jogE){
+							campoMestre.append("\nVocê ganhou a iniciativa, o que quer fazer?\n");
+							batalha++;
+						}
+						else {
+							campoMestre.append("\nA Aranha gigante ganhou a iniciativa. ");
+							if(aranha.d20() >= player.getDefesa()){
+								aranha.atacar(player);
+								if(player.getPv() == 0){
+									campoMestre.append("\n" + player.getNome() + "a Aranha te atinge com um golpe mortal, você morre.");
+									etapa = 0;
+								} else campoMestre.append ("\nSeu inimigo consegue cravar as presas em seu braço, você acabou sofrendo dano.\nO que quer fazer?");
+							} else {
+								campoMestre.append("\nSeu inimigo tentou atacar você, com um rápido reflexo conseguiu desviar."
+										+ "\nO que quer fazer?");
+							}
+							batalha++;							
+						}
+					
+					} else if (texto.equals("Não")){
+							if(aranha.d20() >= player.getDefesa()){
+								aranha.atacar(player);
+								if(player.getPv() == 0){
+									campoMestre.append("\n" + player.getNome() + ", a Aranha te atinge com um golpe mortal, você morre.");
+									etapa = 0;
+								} else campoMestre.append("\nVocê tomou um ataque surpresa, e acabou sofrendo dano.");
+							} else {
+								campoMestre.append("\nA Aranha tentou atacar você, com um rápido reflexo conseguiu desviar.");
+							}
+						campoMestre.append("\nO que quer fazer?\n");
+						batalha++;
+					} 
+				}
+					//BATALHA 01
+					else if(batalha == 1){
+						if(texto.equals("Atacar")){
+							int jogP = player.d20();
+							campoMestre.append("\nSua rolagem: " + jogP);
+							if(jogP > aranha.getDefesa()){
+								player.atacar(aranha);
+								if(aranha.getPvsEnemy() > 0){
+								campoMestre.append("\nVocê consegue desferir um ataque em seu Inimigo. Inflinge " + player.getArma().getDano() + " pontos de dano.\n");
+								batalha++;
+								} else { 
+									campoMestre.append("\nCom um ataque fatal, você atinge seu Inimigo, ele está morto.");
+									etapa++;
+								}
+							}
+							else {
+								campoMestre.append("\nVocê desfere o ataque, mas a Aranha é mais rápida e reflete.\n");
+								batalha++;
+							}
+						} else if(texto.equals("Nada")){
+							batalha++;
+						}
+					}
+					//BATALHA 02
+					else if(batalha == 2){
+						int jogE = aranha.d20();
+						if(jogE > player.getDefesa()){
+							aranha.atacar(player);
+							if(player.getPv() == 0){
+								campoMestre.append("\n" + player.getNome() + ", a Aranha te atinge com um golpe mortal, você morre.\n");
+								etapa = 0;
+							} else campoMestre.append("\nA Aranha crava as presas em sua perna, você acabou sofrendo dano.\n"
+									+ "\nO que deseja fazer?");
+							
+						} else campoMestre.append("\nA Aranha tenta cravar suas presas em sua perna, você consegue refletir.\n"
+								+ "\nO que deseja fazer?");
+							batalha = 1;
+						}
+				}
 			campoJogador.setText("");
 		}		
 	}

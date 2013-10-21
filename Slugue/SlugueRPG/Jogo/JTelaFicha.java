@@ -143,8 +143,8 @@ public class JTelaFicha extends JFrame{
 		rolagem6 = new JTextField("");
 		rolagem6.setBounds(338, 104, 50, 25);
 		rolagem6.setEnabled(false);
-		rolagem6.setBackground(Color.black);
 		rolagem6.setDisabledTextColor(Color.green);
+		rolagem6.setBackground(Color.black);
 		rolagem6.setFont(new Font("Calibri", Font.BOLD, 14));
 		rolagem6.setHorizontalAlignment(JTextField.CENTER);
 		paneFicha.add(rolagem6);
@@ -244,7 +244,6 @@ public class JTelaFicha extends JFrame{
 			putValue(NAME, "Rolar 3 Dados");
 			putValue(SHORT_DESCRIPTION, "Jogar!");
 		}
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(etapa == 0){
@@ -296,7 +295,6 @@ public class JTelaFicha extends JFrame{
 			putValue(NAME, "Calcular e Gravar Ficha");
 			putValue(SHORT_DESCRIPTION, "Calcular e Gravar");
 		}
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String classe = (String)classeR.getSelectedItem();
@@ -357,7 +355,25 @@ public class JTelaFicha extends JFrame{
 				mR.setText("" + (sabS + 1));
 				pmR.setText("" + (5 + sabS));
 				pvR.setText("" + (8 + forcS));
-			}			
+			}
+			pvR.setEnabled(false);
+			pvR.setDisabledTextColor(Color.black);
+			pmR.setEnabled(false);
+			pmR.setDisabledTextColor(Color.black);
+			ccR.setEnabled(false);
+			ccR.setDisabledTextColor(Color.black);
+			adR.setEnabled(false);
+			adR.setDisabledTextColor(Color.black);
+			mR.setEnabled(false);
+			mR.setDisabledTextColor(Color.black);
+			forcR.setEnabled(false);
+			forcR.setDisabledTextColor(Color.black);
+			agiR.setEnabled(false);
+			agiR.setDisabledTextColor(Color.black);
+			sabR.setEnabled(false);
+			sabR.setDisabledTextColor(Color.black);
+			classeR.setEnabled(false);
+			//classeR.getSelectedItem().setF(Color.black);
 		}
 	}
 }
