@@ -1,0 +1,19 @@
+Enemys:
+
+01 - Enemy aranha = new Enemy("Aranha Gigante", 14, 4, 14);
+02 - Enemy orc = new Enemy("Orc", 6, 3, 13);
+03 - Enemy troll = new Enemy("Troll", 22, 6, 17);
+
+
+Armas:
+
+01 - Arma espadaC = new Arma("Espada Curta", 6, 'c');
+02 - Arma espadaLo = new Arma("Espada Longa", 8, 'c');
+03 - Arma espadaLa = new Arma("Espada Larga", 12, 'c');
+04 - Arma espadaB = new Arma("Espada Bastarda", 10, 'c');
+05 - Arma arcoC = new Arma("Arco Curto", 6, 'd');
+06 - Arma arcoL = new Arma("Arco Longo", 8, 'd');
+09 - Arma besta = new Arma("Besta", 8, 'd');
+07 - Arma machadoG = new Arma("Machado Grande", 8, 'c');
+08 - Arma machadoD = new Arma("Machado Duplo", 12, 'c');
+09 - Arma cajado = new Arma("Cajado", 6, 'm');

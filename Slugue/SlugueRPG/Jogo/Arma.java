@@ -36,14 +36,15 @@ public class Arma {
 	
 	public int danoInf(Personagem p){
 		int damage = 0;
+		int dado = rola.nextInt(dano);
 		if(tipo == 'c'){
-			damage = p.getForc() + rola.nextInt(dano);
+			damage = p.getForc() + dado;
 		}
 		if(tipo == 'd'){
-			damage = p.getAgi() + rola.nextInt(dano);
+			damage = p.getAgi() + dado;
 		}
 		if(tipo == 'm'){
-			damage = p.getSab() + rola.nextInt(dano);
+			damage = p.getSab() + dado;
 		}	
 		return damage;
 	}

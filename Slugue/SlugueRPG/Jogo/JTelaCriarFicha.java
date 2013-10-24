@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class JTelaFicha extends JFrame{
+public class JTelaCriarFicha extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private final Action actionSortear = new SwingActionSortear();
 	private final Action actionCalcular = new SwingActionCalcular();
@@ -42,7 +42,7 @@ public class JTelaFicha extends JFrame{
 	private JPanel paneFicha;
 	private int etapa;
 	
-	public JTelaFicha(){
+	public JTelaCriarFicha(){
 		this.paneFicha = new JPanel();
 		setTitle("SlugueRPG - Ficha");
 		

@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class JTelaJogar extends JFrame {
+public class JTelaAventura extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel pane;
@@ -27,7 +27,7 @@ public class JTelaJogar extends JFrame {
 	private JTextField campoJogador;
 	private Personagem player;
 
-	public JTelaJogar(Personagem player){
+	public JTelaAventura(Personagem player){
 		this.player = player;
 		
 		//Panel
@@ -181,13 +181,13 @@ public class JTelaJogar extends JFrame {
 					else if(batalha == 1){
 						if(texto.equals("Atacar")){
 							int jogP = player.d20();
-							campoMestre.append("\nSua rolagem: " + jogP);
+							campoMestre.append("\nSua rolagem: " + jogP + "\n");
 							if(jogP > aranha.getDefesa()){
 								player.atacar(aranha);
 								if(aranha.getPvsEnemy() > 0){
 								campoMestre.append("\nVocê consegue desferir um ataque em seu Inimigo. Inflinge " + player.getArma().getDano() + " pontos de dano.\n");
 								batalha++;
-								} else { 
+								} else if(aranha.getPvsEnemy() == 0) { 
 									campoMestre.append("\nCom um ataque fatal, você atinge seu Inimigo, ele está morto.");
 									etapa++;
 								}
@@ -233,7 +233,7 @@ public class JTelaJogar extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFicha f = new JFicha(player);
+			JVerFicha f = new JVerFicha(player);
 			f.setVisible(true);	
 		}
 	}

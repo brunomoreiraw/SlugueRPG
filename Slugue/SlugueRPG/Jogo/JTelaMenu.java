@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
 		private JPanel paneMenu;
 		private final Action criarFicha = new SwingActionCriarFicha();
 		private final Action jogarAventura = new SwingActionJogarAventura();
-		private final Action ready = new SwingActionReady();
+		private final Action ok = new SwingActionOk();
 		private JTextField personagemNome;
 		private JButton btnOk;
 		
@@ -42,6 +42,7 @@ import javax.swing.border.TitledBorder;
 	}
 	
 	public JTelaMenu(){
+		//Painel
 		paneMenu = new JPanel();
 		paneMenu.setBorder ( new TitledBorder ( new EtchedBorder(), "Slugue RPG" ) );
 		setContentPane(paneMenu);
@@ -49,28 +50,31 @@ import javax.swing.border.TitledBorder;
 		paneMenu.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		
 		setBounds(480, 150, 400, 200);
 		setTitle("SlugueRPG - Aventura");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		paneMenu.setBackground(Color.white);
 		
+		//Botão Criar Personagem
 		JButton btnCriar = new JButton("Criar Ficha");
 		btnCriar.setAction(criarFicha);
 		btnCriar.setBounds(69, 22, 110, 25);
 		paneMenu.add(btnCriar);
 		
+		//Botão Jogar Aventura
 		JButton btnJogar = new JButton("Jogar Aventura");
 		btnJogar.setAction(jogarAventura);
 		btnJogar.setBounds(189, 22, 130, 25);
 		paneMenu.add(btnJogar);
 		
+		//Label com mensagem inicial
 		JLabel bemVindo = new JLabel("Seja Bem Vindo! Escolha uma das opções.");
 		bemVindo.setBounds(74, 60, 246, 14);
 		paneMenu.add(bemVindo);
 		
+		//Botão Ok que aparece somente depois que se escolhe a opção Jogar Aventura
 		btnOk = new JButton("OK");
-		btnOk.setAction(ready);
+		btnOk.setAction(ok);
 		btnOk.setBounds(240, 115, 80, 25);
 		paneMenu.add(btnOk);
 		btnOk.setVisible(false);
@@ -89,7 +93,7 @@ import javax.swing.border.TitledBorder;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JTelaFicha telaFicha = new JTelaFicha();
+			JTelaCriarFicha telaFicha = new JTelaCriarFicha();
 			telaFicha.setVisible(true);	
 			
 		}
@@ -99,7 +103,6 @@ import javax.swing.border.TitledBorder;
 	 * Botão para Jogar Aventura
 	 */
 			private class SwingActionJogarAventura extends AbstractAction {
-			//TODO: Barra de Rolagem!
 			private static final long serialVersionUID = 1L;
 
 			public SwingActionJogarAventura() {
@@ -132,10 +135,10 @@ import javax.swing.border.TitledBorder;
 			/**
 			 * Botão para Pronto para Jogo
 			 */
-			private class SwingActionReady extends AbstractAction {
+			private class SwingActionOk extends AbstractAction {
 				private static final long serialVersionUID = 1L;
 
-				public SwingActionReady() {
+				public SwingActionOk() {
 					putValue(NAME, "OK");
 					putValue(SHORT_DESCRIPTION, "Confirme");
 				}
@@ -145,7 +148,7 @@ import javax.swing.border.TitledBorder;
 					String nome = personagemNome.getText();
 					Arma espada = new Arma("Espada", 8, 'c');
 					Personagem player = new Personagem(nome, "Guerreiro", 3, 1, 4, espada);
-					JTelaJogar telaJogar = new JTelaJogar(player);
+					JTelaAventura telaJogar = new JTelaAventura(player);
 					telaJogar.setVisible(true);					
 				}
 				

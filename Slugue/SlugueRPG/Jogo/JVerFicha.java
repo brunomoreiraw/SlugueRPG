@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class JFicha extends JFrame {
+public class JVerFicha extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private final Action actionAtualizar = new SwingActionAtualizar();
@@ -21,7 +21,7 @@ public class JFicha extends JFrame {
 	private JTextArea ficha;
 	private Personagem player;
 
-	public JFicha(Personagem p) {
+	public JVerFicha(Personagem p) {
 		this.player = p;
 		
 		//Panel
