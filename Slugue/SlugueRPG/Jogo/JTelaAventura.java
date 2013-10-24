@@ -99,35 +99,35 @@ public class JTelaAventura extends JFrame {
 			//String[] palavras = texto.split(" ");
 			texto = texto.trim();
 			if (etapa == 0) {
-				if(texto.equals("Sim")){
+				if(texto.equalsIgnoreCase("Sim")){
 					campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
 							+ "\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
 					etapa++;
 				}
-				if(texto.equals("Não")){
+				if(texto.equalsIgnoreCase("Não")){
 					campoMestre.append("\n" + player.getNome() + ", o tempo está passando." + " Vamos iniciar a aventura?\n");
 					etapa = 0;
 				}
 						
 			} else if (etapa == 1) {
 				campoMestre.append("\nVocê segue pela trilha " + texto + ".\n");
-				if (texto.equals("Norte")){
+				if (texto.equalsIgnoreCase("Norte")){
 					campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
 								+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar ou seguir em frente?\n");
 				} 
-				if(texto.equals("Sul")){
+				if(texto.equalsIgnoreCase("Sul")){
 					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
 								+ "A frente você enxerga um grande portão, possivelmente de Urboba. Continua...");
 				}
 				etapa++;
 			}else if (etapa == 2) {		
-				if(texto.equals("Investigar poço")){
+				if(texto.equalsIgnoreCase("Investigar poço")){
 					campoMestre.append("\nAo se aproximar do poço, você ouve algo estranho, algo está ecoando lá dentro."
 							+ "\nNo momento em que você põe sua cabeça, você percebe algo subindo, "
 							+ "\nUma Aranha gigante está vindo em sua direção, verticalmente. Deseja sacar sua arma?\n");
 					etapa = 3;
 				}
-				if(texto.equals("Seguir em frente")){
+				if(texto.equalsIgnoreCase("Seguir em frente")){
 					campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
 							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas."
 							+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar arma?\n");
@@ -139,7 +139,7 @@ public class JTelaAventura extends JFrame {
 				//BATALHA 00
 				if(batalha == 0){
 					
-					if(texto.equals("Sim")){
+					if(texto.equalsIgnoreCase("Sim")){
 						campoMestre.append("\nVocê saca sua/seu " + player.getArma().getNome() + ". Rolando iniciativa...\n");
 						int jogP = player.d20();
 						int jogE = aranha.d20();
@@ -163,7 +163,7 @@ public class JTelaAventura extends JFrame {
 							batalha++;							
 						}
 					
-					} else if (texto.equals("Não")){
+					} else if (texto.equalsIgnoreCase("Não")){
 							if(aranha.d20() >= player.getDefesa()){
 								aranha.atacar(player);
 								if(player.getPv() == 0){
@@ -179,7 +179,7 @@ public class JTelaAventura extends JFrame {
 				}
 					//BATALHA 01
 					else if(batalha == 1){
-						if(texto.equals("Atacar")){
+						if(texto.equalsIgnoreCase("Atacar")){
 							int jogP = player.d20();
 							campoMestre.append("\nSua rolagem: " + jogP + "\n");
 							if(jogP > aranha.getDefesa()){
@@ -196,7 +196,7 @@ public class JTelaAventura extends JFrame {
 								campoMestre.append("\nVocê desfere o ataque, mas a Aranha é mais rápida e reflete.\n");
 								batalha++;
 							}
-						} else if(texto.equals("Nada")){
+						} else if(texto.equalsIgnoreCase("Nada")){
 							batalha++;
 						}
 					}

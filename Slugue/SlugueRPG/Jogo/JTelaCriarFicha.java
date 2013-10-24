@@ -300,27 +300,27 @@ public class JTelaCriarFicha extends JFrame{
 			String classe = (String)classeR.getSelectedItem();
 			classe.trim();
 			
-			if(forcR.getText().equals("A")){
+			if(forcR.getText().equalsIgnoreCase("A")){
 				forcR.setText(rolagem4.getText());
-			} else if(forcR.getText().equals("B")){
+			} else if(forcR.getText().equalsIgnoreCase("B")){
 				forcR.setText(rolagem5.getText());
-			} else if(forcR.getText().equals("C")){
+			} else if(forcR.getText().equalsIgnoreCase("C")){
 				forcR.setText(rolagem6.getText());
 			}
 			
-			if(agiR.getText().equals("A")){
+			if(agiR.getText().equalsIgnoreCase("A")){
 				agiR.setText(rolagem4.getText());
-			}else if(agiR.getText().equals("B")){
+			}else if(agiR.getText().equalsIgnoreCase("B")){
 				agiR.setText(rolagem5.getText());
-			}else if(agiR.getText().equals("C")){
+			}else if(agiR.getText().equalsIgnoreCase("C")){
 				agiR.setText(rolagem6.getText());
 			}
 			
-			if(sabR.getText().equals("A")){
+			if(sabR.getText().equalsIgnoreCase("A")){
 				sabR.setText(rolagem4.getText());
-			}else if(sabR.getText().equals("B")){
+			}else if(sabR.getText().equalsIgnoreCase("B")){
 				sabR.setText(rolagem5.getText());
-			}else if(sabR.getText().equals("C")){
+			}else if(sabR.getText().equalsIgnoreCase("C")){
 				sabR.setText(rolagem6.getText());
 			}
 			
@@ -328,28 +328,28 @@ public class JTelaCriarFicha extends JFrame{
 			int agiS = Integer.parseInt(agiR.getText());
 			int sabS = Integer.parseInt(sabR.getText());
 			
-			if(classe.equals("Guerreiro")){
+			if(classe.equalsIgnoreCase("Guerreiro")){
 				ccR.setText("" + (forcS + 2));
 				adR.setText("" + (agiS));
 				mR.setText("" + (sabS));
 				pmR.setText("" + (sabS));
 				pvR.setText("" + (10 + forcS));
 			}
-			if(classe.equals("Ranger")){
+			if(classe.equalsIgnoreCase("Ranger")){
 				ccR.setText("" + (forcS));
 				adR.setText("" + (agiS + 2));
 				mR.setText("" + (sabS));
 				pmR.setText("" + (sabS));
 				pvR.setText("" + (8 + forcS));
 			}
-			if(classe.equals("Mago")){
+			if(classe.equalsIgnoreCase("Mago")){
 				ccR.setText("" + (forcS));
 				adR.setText("" + (agiS));
 				mR.setText("" + (sabS + 2));
 				pmR.setText("" + (10 + sabS));
 				pvR.setText("" + (4 + forcS));
 			}
-			if(classe.equals("Clérigo")){
+			if(classe.equalsIgnoreCase("Clérigo")){
 				ccR.setText("" + (forcS + 1));
 				adR.setText("" + (agiS));
 				mR.setText("" + (sabS + 1));
