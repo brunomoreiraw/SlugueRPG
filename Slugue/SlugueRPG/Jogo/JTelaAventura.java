@@ -48,6 +48,8 @@ public class JTelaAventura extends JFrame {
 		btnEnter.setAction(actionEnter);
 		btnEnter.setBounds(521, 325, 100, 25);
 		pane.add(btnEnter);
+		getRootPane().setDefaultButton(btnEnter);// quando o enter(teclado) for pressionado, o botão Enter entrará em ação. 
+        										 //setDefaultButton(botao) - determina um botão padrão.
 		
 		JButton btnFicha = new JButton("Ficha");
 		btnFicha.setAction(actionFicha);
