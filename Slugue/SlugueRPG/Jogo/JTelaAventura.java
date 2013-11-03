@@ -9,6 +9,10 @@ import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -17,44 +21,75 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class JTelaAventura extends JFrame {
+public class JTelaAventura extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private JPanel pane;
+	private FramePrincipal masterFrame;
 	private final Action actionEnter = new SwingActionEnter();
 	private final Action actionFicha = new SwingActionFicha();
+	private final Action actionSobre = new SwingActionSobre();
+	private final Action actionSair = new SwingActionSair();
 	private JTextArea campoMestre;
 	private JTextField campoJogador;
+	private JMenuBar barraMenu;
 	private Personagem player;
 
-	public JTelaAventura(Personagem player){
+	public JTelaAventura(Personagem player, FramePrincipal master){
+		//Setando o principal frame
 		this.player = player;
+		this.masterFrame = master;
 		
-		//Panel
-		this.pane = new JPanel();
-		pane.setBorder ( new TitledBorder ( new EtchedBorder(), "Aventura" ) );
-		setContentPane(pane);
-		setBounds(320, 130, 750, 400);
-		setTitle("SlugueRPG - Aventura");
-		setBackground(Color.DARK_GRAY);
-		GroupLayout layout = new GroupLayout(pane);
-		pane.setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//Configurações do Painel (Tela Aventura)
+		GroupLayout layout = new GroupLayout(this);
+		this.setLayout(layout);
+		setBounds(0, 0, 750, 400);
+		this.setBorder ( new TitledBorder ( new EtchedBorder(), "Slugue RPG" ) );
+		
+		/**
+		 * Barra de Menus.
+		 */
+		barraMenu = new JMenuBar();
+		barraMenu.setBounds(6, 18, 720, 25);
+		barraMenu.setBackground(Color.DARK_GRAY);
+		
+		//Menu Arquivo
+		JMenu arquivoM = new JMenu("Arquivo");
+		arquivoM.setForeground(Color.white);
+		barraMenu.add(arquivoM);
+		
+		//Menu Arquivo - Sair
+		JMenuItem sair = new JMenuItem("Sair");
+		sair.setAction(actionSair);
+		arquivoM.add(sair);
+		
+		//Menu Opções
+		JMenu opcoesM = new JMenu("Opções");
+		opcoesM.setForeground(Color.white);
+		barraMenu.add(opcoesM);
+		
+		//Menu Ajuda
+		JMenu ajudaM = new JMenu("Ajuda");
+		ajudaM.setForeground(Color.white);
+		barraMenu.add(ajudaM);
+		
+		//Menu Sobre - Ajuda
+		JMenuItem sobreM = new JMenuItem("Sobre");
+		sobreM.setAction(actionSobre);
+		ajudaM.add(sobreM);
+		
+		this.add(barraMenu);
 		
 		//Button Enter e Ficha		
 		JButton btnEnter = new JButton("Enter");
 		btnEnter.setAction(actionEnter);
 		btnEnter.setBounds(521, 325, 100, 25);
-		pane.add(btnEnter);
-		getRootPane().setDefaultButton(btnEnter);// quando o enter(teclado) for pressionado, o botão Enter entrará em ação. 
-        										 //setDefaultButton(botao) - determina um botão padrão.
-		
+		masterFrame.getRootPane().setDefaultButton(btnEnter);
+		this.add(btnEnter);
+		     										
 		JButton btnFicha = new JButton("Ficha");
 		btnFicha.setAction(actionFicha);
 		btnFicha.setBounds(626, 325, 100, 25);
-		pane.add(btnFicha);
+		this.add(btnFicha);
 		
 		//Campo Mestre
 		campoMestre = new JTextArea("Seja Bem-Vindo ao SlugueRPG!\n");
@@ -63,21 +98,21 @@ public class JTelaAventura extends JFrame {
 		campoMestre.setBackground(Color.black);
 		campoMestre.setDisabledTextColor(Color.green);
 		campoMestre.append("\n" + player.getNome() + ", é um " + player.getClasse() + " iniciante. Deseja iniciar a aventura?\n" );
-		pane.add(campoMestre);
+		this.add(campoMestre);
 		
 		//Barra de Rolagem
 		JScrollPane scrollpane = new JScrollPane(campoMestre);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpane.setBounds(6, 18, 720, 300);
+		scrollpane.setBounds(6, 43, 720, 275);
 		campoMestre.setCaretPosition(campoMestre.getDocument().getLength());
-		pane.add(scrollpane);
+		this.add(scrollpane);
 		
 		//Campo Jogador
 		campoJogador = new JTextField(" ");
 		campoJogador.setFont(new Font("arial", Font.BOLD, 12));
 		campoJogador.setForeground(Color.blue);
 		campoJogador.setBounds(6, 325, 511, 26);
-		pane.add(campoJogador);
+		this.add(campoJogador);
 	}
 	
 	/**
@@ -237,6 +272,63 @@ public class JTelaAventura extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JVerFicha f = new JVerFicha(player);
 			f.setVisible(true);	
+		}
+	}
+	
+	/**
+	 * Botão Sair no SubMenu do botão Arquivo.
+	 */
+	private class SwingActionSair extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionSair() {
+			putValue(NAME, "Sair");
+			putValue(SHORT_DESCRIPTION, "Sair");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			masterFrame.telaMenu.setVisible(true);
+			masterFrame.setBounds(400,170,600,300);
+			setVisible(false);
+		}
+	}
+	
+	/**
+	 * Botão Sobre no subMenu Ajuda.
+	 */
+	private class SwingActionSobre extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionSobre() {
+			putValue(NAME, "Sobre");
+			putValue(SHORT_DESCRIPTION, "Sobre");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFrame telaSobre = new JFrame();
+			telaSobre.setBounds(470, 215, 400, 230);
+			
+			JPanel aux = new JPanel();
+			aux.setBounds(0, 0, 400, 160);
+			aux.setVisible(true);
+			GroupLayout layout = new GroupLayout(aux);
+			aux.setLayout(layout);
+			aux.setBackground(Color.DARK_GRAY);
+			telaSobre.add(aux);
+			
+			final JTextArea label = new JTextArea("    Slugue RPG - Jogo Textual" + "\n\n" 
+													+ "       Versão 1.0 - Urboba City \n  Bruno Moreira e Luiz Eduardo" 
+														+ "\n\n" + "(c)Todos os direitos reservados");  
+			label.setEditable(false);  
+			label.setLineWrap(true);
+			label.setBackground(Color.DARK_GRAY);
+			label.setForeground(Color.white);
+			label.setBounds(110, 30, 260, 150);
+			aux.add(label);
+			
+			telaSobre.setVisible(true);
 		}
 	}
 		
