@@ -20,7 +20,7 @@ public class Personagem {
 	
 	public Personagem(String nome, String classe, int forc, int agi, int sab, Arma arma){
 		setNome(nome);
-		this.classe = classe;
+		setClasse(classe);
 		setForc(forc);
 		setAgi(agi);
 		setSab(sab);
@@ -29,26 +29,7 @@ public class Personagem {
 		setAtaqueAD(agi);
 		setAtaqueM(sab);
 		setDefesa(agi);
-		this.arma = arma;
-		if(classe.equals("Guerreiro")){
-			setAtaqueCC(forc + 2);
-			setPv(forc + 10);
-		}
-		if(classe.equals("Ranger")){
-			setAtaqueAD(agi + 2);
-			setPv(forc + 8);
-		}
-		if(classe.equals("Mago")){
-			setAtaqueM(sab + 2);
-			setPm(sab + 10);
-			setPv(forc + 4);
-		}
-		if(classe.equals("Clérigo")){
-			setAtaqueCC(forc + 1);
-			setAtaqueM(sab + 1);
-			setPm(sab + 5);
-			setPv(forc + 8);
-		}
+		setArma(arma);
 	}
 	
 	//Get & Sets
@@ -57,6 +38,12 @@ public class Personagem {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public void setClasse(String classe){
+		this.classe = classe;
+	}
+	public String getClasse(){
+		return classe;
 	}
 	public int getPv() {
 		return pv;
@@ -88,9 +75,6 @@ public class Personagem {
 	public void setSab(int sab) {
 		this.sab = sab;
 	}
-	public String getClasse() {
-		return classe;
-	}
 	public int getAtaqueCC() {
 		return ataqueCC;
 	}
@@ -113,7 +97,7 @@ public class Personagem {
 		return defesa;
 	}
 	public void setDefesa(int def) {
-		this.defesa = def + 14;
+		this.defesa = 14 + forc;
 	}
 	public Arma getArma() {
 		return arma;

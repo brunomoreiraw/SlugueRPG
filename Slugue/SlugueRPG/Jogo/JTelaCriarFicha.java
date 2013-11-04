@@ -3,24 +3,33 @@ package Jogo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class JTelaCriarFicha extends JFrame{
+
+public class JTelaCriarFicha extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private final Action actionSortear = new SwingActionSortear();
 	private final Action actionCalcular = new SwingActionCalcular();
+	private final Action actionVoltar = new SwingActionVoltar();
+	private FramePrincipal masterFrame;
+	private int etapa;
 	// Início Ficha
 	private JTextField rolagem1;
 	private JTextField rolagem2;
@@ -39,53 +48,60 @@ public class JTelaCriarFicha extends JFrame{
 	private JTextField sabR;
 	private JComboBox<String> classeR;
 	//Fim Ficha
-	private JPanel paneFicha;
-	private int etapa;
 	
-	public JTelaCriarFicha(){
-		this.paneFicha = new JPanel();
-		setTitle("SlugueRPG - Ficha");
+	public JTelaCriarFicha(FramePrincipal master){
+		//Setando MasterFrame
+		this.masterFrame = master;
 		
-		//Panel
-		paneFicha.setBorder ( new TitledBorder ( new EtchedBorder(), "Ficha" ) );
-		setContentPane(paneFicha);
-		setBounds(470, 130, 416, 268);
-		GroupLayout layout = new GroupLayout(paneFicha);
-		paneFicha.setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
+		//Configurações do Painel (Tela Criação de Ficha)
+		GroupLayout layout = new GroupLayout(this);
+		this.setLayout(layout);
+		this.setBounds(0, 0, 400, 228);
+		this.setBackground(new Color(29, 31, 36));
+		TitledBorder titledBorder = BorderFactory.createTitledBorder("Criação de Ficha");
+		titledBorder.setTitleColor(Color.green);
+		this.setBorder(titledBorder);
 		
 		//Nome
 		JLabel nome = new JLabel("Nome:");
 		nome.setBounds(10, 25, 50, 25);
+		nome.setForeground(Color.white);
 		nomeR = new JTextField();
 		nomeR.setBounds(60, 25, 130, 25);
+		nomeR.setBackground(new Color(27, 28, 31));
+		nomeR.setForeground(Color.green);
 		nomeR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(nomeR);
-		paneFicha.add(nome);
+		this.add(nomeR);
+		this.add(nome);
 		
 		//Classe
 		JLabel classe = new JLabel("Classe:");
 		classe.setBounds(10, 60, 50, 25);
+		classe.setForeground(Color.white);
 		classeR = new JComboBox<String>();
 		classeR.addItem("Guerreiro");
 		classeR.addItem("Mago"); 
 		classeR.addItem("Clérigo");
 		classeR.addItem("Ranger"); 
 		classeR.setBounds(60, 60, 130, 25);
-		paneFicha.add(classeR);
-		paneFicha.add(classe);
+		this.add(classeR);
+		this.add(classe);
 		
 		//Botões
 		JButton btnSortear = new JButton();
 		btnSortear.setAction(actionSortear);
 		btnSortear.setBounds(222, 24, 166, 25);
-		paneFicha.add(btnSortear);
+		this.add(btnSortear);
 		
 		JButton btnCalcular = new JButton();
 		btnCalcular.setAction(actionCalcular);
-		btnCalcular.setBounds(10, 195, 377, 25);
-		paneFicha.add(btnCalcular);
+		btnCalcular.setBounds(10, 195, 280, 25);
+		this.add(btnCalcular);
+		
+		JButton btnVoltar = new JButton();
+		btnVoltar.setAction(actionVoltar);
+		btnVoltar.setBounds(298, 195, 91, 25);
+		this.add(btnVoltar);
 		
 		//Rolagem 1
 		rolagem1 = new JTextField(" A :");
@@ -94,7 +110,7 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem1.setBackground(Color.black);
 		rolagem1.setDisabledTextColor(Color.green);
 		rolagem1.setFont(new Font("Calibri", Font.BOLD, 14));
-		paneFicha.add(rolagem1);
+		this.add(rolagem1);
 		
 		//Rolagem 2
 		rolagem2 = new JTextField(" B :");
@@ -103,7 +119,7 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem2.setBackground(Color.black);
 		rolagem2.setDisabledTextColor(Color.green);
 		rolagem2.setFont(new Font("Calibri", Font.BOLD, 14));
-		paneFicha.add(rolagem2);
+		this.add(rolagem2);
 		
 		//Rolagem 3
 		rolagem3 = new JTextField(" C :");
@@ -112,12 +128,13 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem3.setBackground(Color.black);
 		rolagem3.setDisabledTextColor(Color.green);
 		rolagem3.setFont(new Font("Calibri", Font.BOLD, 14));
-		paneFicha.add(rolagem3);
+		this.add(rolagem3);
 		
 		//Modificadores
 		JLabel mod = new JLabel("Modificadores de Atributos");
+		mod.setForeground(new Color(176, 176, 176));
 		mod.setBounds(227, 82, 160, 25);
-		paneFicha.add(mod);
+		this.add(mod);
 		
 		//Rolagem 4
 		rolagem4 = new JTextField("");
@@ -127,7 +144,7 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem4.setDisabledTextColor(Color.green);
 		rolagem4.setFont(new Font("Calibri", Font.BOLD, 14));
 		rolagem4.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(rolagem4);
+		this.add(rolagem4);
 		
 		//Rolagem 5
 		rolagem5 = new JTextField("");
@@ -137,7 +154,7 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem5.setDisabledTextColor(Color.green);
 		rolagem5.setFont(new Font("Calibri", Font.BOLD, 14));
 		rolagem5.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(rolagem5);
+		this.add(rolagem5);
 		
 		//Rolagem 6
 		rolagem6 = new JTextField("");
@@ -147,89 +164,114 @@ public class JTelaCriarFicha extends JFrame{
 		rolagem6.setBackground(Color.black);
 		rolagem6.setFont(new Font("Calibri", Font.BOLD, 14));
 		rolagem6.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(rolagem6);
+		this.add(rolagem6);
 		
 		//Pontos
 		JLabel pv = new JLabel("Pontos de Vida");
+		pv.setForeground(Color.white);
 		pv.setBounds(222, 134, 160, 25);
-		paneFicha.add(pv);
+		this.add(pv);
 
 		JLabel pm = new JLabel("Pontos de Magia");
+		pm.setForeground(Color.white);
 		pm.setBounds(222, 161, 160, 25);
-		paneFicha.add(pm);
+		this.add(pm);
 		
 		pvR = new JTextField();
 		pvR.setBounds(330, 134, 58, 25);
+		pvR.setBackground(new Color(27, 28, 31));
+		pvR.setForeground(Color.green);
 		pvR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(pvR);
+		this.add(pvR);
 		
 		pmR = new JTextField();
 		pmR.setBounds(330, 161, 58, 25);
+		pmR.setBackground(new Color(27, 28, 31));
+		pmR.setForeground(Color.green);
 		pmR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(pmR);
+		this.add(pmR);
 		
 		//Atributos
 		JLabel atr = new JLabel("Atributos e Ataques:");
-		atr.setBounds(10, 82, 160, 25);
-		paneFicha.add(atr);
+		atr.setForeground(new Color(176, 176, 176));
+		atr.setBounds(10, 84, 160, 25);
+		this.add(atr);
 		
 		JLabel forc = new JLabel("Força");
+		forc.setForeground(Color.white);
 		forc.setBounds(10, 107, 160, 25);
-		forc.setForeground(Color.blue);
-		paneFicha.add(forc);
+		forc.setForeground(Color.white);
+		this.add(forc);
 		
 		JLabel agi = new JLabel("Agilidade");
 		agi.setBounds(10, 134, 160, 25);
-		agi.setForeground(Color.blue);
-		paneFicha.add(agi);
+		agi.setForeground(Color.white);
+		agi.setForeground(Color.white);
+		this.add(agi);
 		
 		JLabel sab = new JLabel("Sabedoria");
 		sab.setBounds(10, 161, 160, 25);
-		sab.setForeground(Color.blue);
-		paneFicha.add(sab);
+		sab.setForeground(Color.white);
+		sab.setForeground(Color.white);
+		this.add(sab);
 		
 		forcR = new JTextField();
 		forcR.setBounds(74, 107, 35, 25);
+		forcR.setBackground(new Color(27, 28, 31));
+		forcR.setForeground(Color.green);
 		forcR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(forcR);
+		this.add(forcR);
 		
 		agiR = new JTextField();
 		agiR.setBounds(74, 134, 35, 25);
+		agiR.setBackground(new Color(27, 28, 31));
+		agiR.setForeground(Color.green);
 		agiR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(agiR);
+		this.add(agiR);
 		
 		sabR = new JTextField();
 		sabR.setBounds(74, 161, 35, 25);
+		sabR.setBackground(new Color(27, 28, 31));
+		sabR.setForeground(Color.green);
 		sabR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(sabR);
+		this.add(sabR);
 		
 		//Ataques
 		JLabel cc = new JLabel("Atk CC");
+		cc.setForeground(Color.white);
 		cc.setBounds(117, 107, 160, 25);
-		paneFicha.add(cc);
+		this.add(cc);
 		
 		JLabel ad = new JLabel("Atk AD");
+		ad.setForeground(Color.white);
 		ad.setBounds(117, 134, 160, 25);
-		paneFicha.add(ad);
+		this.add(ad);
 		
 		JLabel m = new JLabel("Atk M");
+		m.setForeground(Color.white);
 		m.setBounds(117, 161, 160, 25);
-		paneFicha.add(m);
+		this.add(m);
 		
 		ccR = new JTextField();
 		ccR.setBounds(159, 107, 35, 25);
+		ccR.setBackground(new Color(27, 28, 31));
+		ccR.setForeground(Color.green);
 		ccR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(ccR);
+		this.add(ccR);
 		
 		adR = new JTextField();
 		adR.setBounds(159, 134, 35, 25);
+		adR.setBackground(new Color(27, 28, 31));
+		adR.setForeground(Color.green);
 		adR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(adR);
+		this.add(adR);
 		
 		mR = new JTextField();
 		mR.setBounds(159, 161, 35, 25);
+		mR.setBackground(new Color(27, 28, 31));
+		mR.setForeground(Color.green);
 		mR.setHorizontalAlignment(JTextField.CENTER);
-		paneFicha.add(mR);
+		this.add(mR);
 	
 	}
 	
@@ -357,23 +399,51 @@ public class JTelaCriarFicha extends JFrame{
 				pvR.setText("" + (8 + forcS));
 			}
 			pvR.setEnabled(false);
-			pvR.setDisabledTextColor(Color.black);
+			pvR.setDisabledTextColor(Color.green);
 			pmR.setEnabled(false);
-			pmR.setDisabledTextColor(Color.black);
+			pmR.setDisabledTextColor(Color.green);
 			ccR.setEnabled(false);
-			ccR.setDisabledTextColor(Color.black);
+			ccR.setDisabledTextColor(Color.green);
 			adR.setEnabled(false);
-			adR.setDisabledTextColor(Color.black);
+			adR.setDisabledTextColor(Color.green);
 			mR.setEnabled(false);
-			mR.setDisabledTextColor(Color.black);
+			mR.setDisabledTextColor(Color.green);
 			forcR.setEnabled(false);
-			forcR.setDisabledTextColor(Color.black);
+			forcR.setDisabledTextColor(Color.green);
 			agiR.setEnabled(false);
-			agiR.setDisabledTextColor(Color.black);
+			agiR.setDisabledTextColor(Color.green);
 			sabR.setEnabled(false);
-			sabR.setDisabledTextColor(Color.black);
+			sabR.setDisabledTextColor(Color.green);
 			classeR.setEnabled(false);
-			//classeR.getSelectedItem().setF(Color.black);
+			
+			//Gravação da Ficha
+			Path path1 = Paths.get(nomeR.getText() + ".txt");
+			try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(
+					path1, Charset.defaultCharset()))) {
+				writer.println("Eescrevendo linha em arquivo texto");
+				writer.println("Outra linha...");	
+			} catch (IOException x) {
+				System.err.format("Erro de E/S: %s%n", x);
+			}	
+		}
+	}
+	
+	/**
+	 * Botão Voltar para o Menu.
+	 */
+	private class SwingActionVoltar extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionVoltar() {
+			putValue(NAME, "Voltar");
+			putValue(SHORT_DESCRIPTION, "Voltar");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			masterFrame.telaMenu.setVisible(true);
+			masterFrame.setBounds(400,170,600,300);
+			setVisible(false);
 		}
 	}
 }

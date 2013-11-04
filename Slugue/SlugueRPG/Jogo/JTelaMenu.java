@@ -31,8 +31,8 @@ public class JTelaMenu extends JPanel {
 		//Configurações do Painel (menu)
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
-		setBounds(90, 30, 400, 200);
-		this.setBackground(Color.white);
+		this.setBounds(90, 40, 400, 200);
+		this.setBackground(new Color(29, 31, 36));
 		
 		//Botão Criar Personagem
 		JButton btnCriar = new JButton("Criar Ficha");
@@ -48,6 +48,7 @@ public class JTelaMenu extends JPanel {
 		
 		//Label com mensagem inicial
 		JLabel bemVindo = new JLabel("Seja Bem Vindo! Escolha uma das opções.");
+		bemVindo.setForeground(Color.white);
 		bemVindo.setBounds(76, 80, 246, 14);
 		this.add(bemVindo);
 		
@@ -72,8 +73,16 @@ public class JTelaMenu extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JTelaCriarFicha telaFicha = new JTelaCriarFicha();
-			telaFicha.setVisible(true);		
+			//Cria tela da Criação de Ficha
+			setVisible(false);
+			masterFrame.setBounds(470, 170, 416, 268);
+			
+			JTelaCriarFicha telaFicha = new JTelaCriarFicha(masterFrame);
+			telaFicha.setVisible(true);
+			masterFrame.add(telaFicha);
+			
+			masterFrame.remove(masterFrame.pred);
+			masterFrame.add(masterFrame.pred);	
 		}
 	}
 	
@@ -92,20 +101,18 @@ public class JTelaMenu extends JPanel {
 		public void actionPerformed(ActionEvent e) {	
 			JLabel nomePersonagem = new JLabel("Com qual personagem deseja jogar?");
 			nomePersonagem.setBounds(76, 105, 250, 14);
+			nomePersonagem.setForeground(Color.white);
 			add(nomePersonagem);
-				
-			nomePersonagem.setForeground(Color.blue);
-			nomePersonagem.setBackground(Color.white);
-				
+								
 			personagemNome = new JTextField(0);
 			personagemNome.setBounds(76, 135, 160, 25);
 			personagemNome.setFont(new Font("arial", Font.BOLD, 12));
 			personagemNome.setHorizontalAlignment(JTextField.CENTER);
 			add(personagemNome);
 				
-			personagemNome.setForeground(Color.blue);
-			personagemNome.setBackground(Color.white);
-			personagemNome.setBorder(BorderFactory.createLineBorder(Color.black));
+			personagemNome.setForeground(Color.green);
+			personagemNome.setBackground(new Color(29, 31, 36));
+			personagemNome.setBorder(BorderFactory.createLineBorder(Color.green));
 				
 			btnOk.setVisible(true);
 		}
@@ -142,6 +149,8 @@ public class JTelaMenu extends JPanel {
 			masterFrame.add(masterFrame.pred);
 		}
 				
-	}			
+	}
+	
+	
 			
 }
