@@ -131,17 +131,13 @@ public class JTelaMenu extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String nome = personagemNome.getText();
-			
-			//Cria o personagem (temporário)
-			Arma espada = new Arma("Espada", 8, 'c');
-			Personagem player = new Personagem(nome, "Guerreiro", 3, 1, 4, espada);
+			//Personagem.player.setNome(personagemNome.getText());
 			
 			//Cria tela da Aventura
 			setVisible(false);
 			masterFrame.setBounds(300,120,750,400);
 			
-			JTelaAventura telaAventura = new JTelaAventura(player, masterFrame);
+			JTelaAventura telaAventura = new JTelaAventura(Personagem.player, masterFrame);
 			telaAventura.setVisible(true);
 			masterFrame.add(telaAventura);
 			

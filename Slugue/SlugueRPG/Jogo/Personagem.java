@@ -17,6 +17,7 @@ public class Personagem {
 	private int pv;
 	private int pm;
 	private Arma arma;
+	static Personagem player = new Personagem("Sem Nome", "Guerreiro", 1, 0, 0, new Arma("Desarmado", 2, 't'));;
 	
 	public Personagem(String nome, String classe, int forc, int agi, int sab, Arma arma){
 		setNome(nome);
@@ -39,66 +40,132 @@ public class Personagem {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public void setClasse(String classe){
-		this.classe = classe;
+	
+	public void setClasse(String c){
+		if (c.equalsIgnoreCase("Guerreiro")) {
+			setAtaqueCC(forc + 2);
+			setAtaqueAD(agi);
+			setAtaqueM(sab);
+			setPm(sab);
+			setPv(10 + forc);
+		}
+		if (c.equalsIgnoreCase("Ranger")) {
+			setAtaqueCC(forc);
+			setAtaqueAD(agi + 2);
+			setAtaqueM(sab);
+			setPm(sab);
+			setPv(8 + forc);
+		}
+		if (c.equalsIgnoreCase("Mago")) {
+			setAtaqueCC(forc);
+			setAtaqueAD(agi);
+			setAtaqueM(sab + 2);
+			setPm(10 + sab);
+			setPv(4 + forc);
+		}
+		if (c.equalsIgnoreCase("Clérigo")) {
+			setAtaqueCC(forc + 1);
+			setAtaqueAD(agi);
+			setAtaqueM(sab + 1);
+			setPm(5 + sab);
+			setPv(8 + forc);
+		}
+		this.classe = c;
 	}
 	public String getClasse(){
 		return classe;
 	}
+	
 	public int getPv() {
 		return pv;
 	}
 	public void setPv(int pv) {
 		this.pv = pv;
 	}
+	
 	public int getPm() {
 		return pm;
 	}
 	public void setPm(int pm) {
 		this.pm = pm;
 	}
+	
 	public int getForc() {
 		return forc;
 	}
 	public void setForc(int forc) {
-		this.forc = forc;
+		if(classe.equalsIgnoreCase("Guerreiro")){
+			this.forc = forc;
+			setAtaqueCC(forc + 2);
+		}if(classe.equalsIgnoreCase("Clérigo")){
+			this.forc = forc;
+			setAtaqueCC(forc + 1);
+		}else {
+			this.forc = forc;
+			setAtaqueCC(forc);
+		}
 	}
+	
 	public int getAgi() {
 		return agi;
 	}
 	public void setAgi(int agi) {
-		this.agi = agi;
+		if(classe.equalsIgnoreCase("Ranger")){
+			this.agi = agi;
+			setAtaqueAD(agi + 2);
+			setDefesa(14 + this.agi);
+		}else {
+			this.agi = agi;
+			setAtaqueAD(agi);
+			setDefesa(14 + this.agi);
+		}
 	}
+	
 	public int getSab() {
 		return sab;
 	}
 	public void setSab(int sab) {
-		this.sab = sab;
+		if(classe.equalsIgnoreCase("Mago")){
+			this.sab = sab;
+			setAtaqueM(sab + 2);
+		}if(classe.equalsIgnoreCase("Clérigo")){
+			this.sab = sab;
+			setAtaqueM(sab + 1);
+		}else {
+			this.sab = sab;
+			setAtaqueM(sab);
+			setDefesa(14 + this.agi);
+		}
 	}
+	
 	public int getAtaqueCC() {
 		return ataqueCC;
 	}
 	public void setAtaqueCC(int ataqueCC) {
 		this.ataqueCC = ataqueCC;
 	}
+	
 	public int getAtaqueAD() {
 		return ataqueAD;
 	}
 	public void setAtaqueAD(int ataqueAD) {
 		this.ataqueAD = ataqueAD;
 	}
+	
 	public int getAtaqueM() {
 		return ataqueM;
 	}
 	public void setAtaqueM(int ataqueM) {
 		this.ataqueM = ataqueM;
 	}
+	
 	public int getDefesa() {
 		return defesa;
 	}
 	public void setDefesa(int def) {
-		this.defesa = 14 + forc;
+		this.defesa = 14 + agi;
 	}
+	
 	public Arma getArma() {
 		return arma;
 	}

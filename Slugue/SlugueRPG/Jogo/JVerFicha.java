@@ -33,11 +33,9 @@ public class JVerFicha extends JFrame {
 		TitledBorder b = new TitledBorder ( new EtchedBorder(Color.DARK_GRAY, Color.LIGHT_GRAY), " Ficha " + player.getNome() + " ");
 		b.setTitleColor(Color.green);
 		panel.setBorder (b);
-		setBounds(1070, 130, 200, 400);
+		setBounds(1050, 120, 200, 400);
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
 		
 		//TextArea
 		ficha = new JTextArea();
