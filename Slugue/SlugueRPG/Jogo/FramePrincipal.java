@@ -24,6 +24,7 @@ public class FramePrincipal extends JFrame {
 	public JTelaMenu telaMenu;
 	private JMenuBar barraMenu;
 	private final Action actionSobre = new SwingActionSobre();
+	private final Action actionJogadores = new SwingActionJogadores();
 	private final Action actionSair = new SwingActionSair();
 	
 	public static void main(String[] args){
@@ -79,6 +80,16 @@ public class FramePrincipal extends JFrame {
 		sair.setAction(actionSair);
 		arquivoM.add(sair);
 		
+		//Menu Jogadores
+		JMenu jogadoresM = new JMenu("Jogadores");
+		jogadoresM.setForeground(Color.white);
+		barraMenu.add(jogadoresM);
+		
+		//Menu Jogadores - Visualizar
+		JMenuItem visJogadores = new JMenuItem("Visualizar");
+		visJogadores.setAction(actionJogadores);
+		jogadoresM.add(visJogadores);
+		
 		//Menu Ajuda
 		JMenu ajudaM = new JMenu("Ajuda");
 		ajudaM.setForeground(Color.white);
@@ -106,6 +117,24 @@ public class FramePrincipal extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
+		}
+	}
+	
+	/**
+	 * Botão Jogadores.
+	 */
+	private class SwingActionJogadores extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionJogadores() {
+			putValue(NAME, "Visualizar");
+			putValue(SHORT_DESCRIPTION, "Visualizar");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Jogadores jog = new Jogadores();
+			jog.setVisible(true);
 		}
 	}
 	

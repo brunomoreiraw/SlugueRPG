@@ -37,7 +37,10 @@ public class Personagem {
 	public String getNome() {
 		return nome;
 	}
-	public void setNome(String nome) {
+	public void setNome(String nome) throws NullPointerException {
+		if(nome.trim().equals("")){
+			throw new NullPointerException();
+		}
 		this.nome = nome;
 	}
 	
@@ -198,6 +201,14 @@ public class Personagem {
 			if(d > 0) {
 				e.setPvsEnemy(d);
 			}else e.setPvsEnemy(0);
+	}
+	
+	public void setPersonagem(String n, String c, int f, int a, int s){
+		setNome(n);
+		setClasse(c);
+		setForc(f);
+		setAgi(a);
+		setSab(s);
 	}
 	
 	public String toString(){

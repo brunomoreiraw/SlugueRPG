@@ -396,7 +396,17 @@ public class JTelaCriarFicha extends JPanel {
 				
 			//Após válidas as informações, seta a classe, para a Classe personagem fazer os cálculos.	
 			if(erroAtivo == false){
+				Personagem.player.setForc(Integer.parseInt(forcR.getText()));
+				Personagem.player.setAgi(Integer.parseInt(agiR.getText()));
+				Personagem.player.setSab(Integer.parseInt(sabR.getText()));
 				Personagem.player.setClasse(classe);
+				Personagem.player.setNome(nomeR.getText());
+				
+				ccR.setText(String.valueOf(Personagem.player.getAtaqueCC()));
+				adR.setText(String.valueOf(Personagem.player.getAtaqueAD()));
+				mR.setText(String.valueOf(Personagem.player.getAtaqueM()));
+				pvR.setText(String.valueOf(Personagem.player.getPv()));
+				pmR.setText(String.valueOf(Personagem.player.getPm()));
 				
 				pvR.setEnabled(false);
 				pvR.setDisabledTextColor(Color.green);
@@ -419,10 +429,13 @@ public class JTelaCriarFicha extends JPanel {
 				// Gravação da Ficha
 				Path path1 = Paths.get(nomeR.getText() + ".txt");
 				try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) {
-					writer.println(Personagem.player.toString());
+					writer.print(Personagem.player.getNome() + "," + Personagem.player.getClasse() + "," +
+							Personagem.player.getForc() + "," + Personagem.player.getAgi() + "," + Personagem.player.getSab() );
 				} catch (IOException x) {
 					System.err.format("Erro de E/S: %s%n", x);
 				}
+				
+				Jogadores.listaJogadores.add(Personagem.player);
 			}
 		}
 	}

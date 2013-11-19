@@ -53,8 +53,6 @@ public class JVerFicha extends JFrame {
 		btnAtualizar.setBackground(Color.BLACK);
 	    btnAtualizar.setForeground(Color.GREEN);
 		ficha.add(btnAtualizar);
-		
-		
 	}
 	
 	/**

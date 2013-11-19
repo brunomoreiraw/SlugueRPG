@@ -3,6 +3,12 @@ package Jogo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -10,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -123,7 +130,7 @@ public class JTelaMenu extends JPanel {
 	*/
 	private class SwingActionOk extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-
+			
 		public SwingActionOk() {
 			putValue(NAME, "OK");
 			putValue(SHORT_DESCRIPTION, "Confirme");
@@ -131,8 +138,36 @@ public class JTelaMenu extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Personagem.player.setNome(personagemNome.getText());
-			
+			String p = personagemNome.getText();
+			Boolean erroAtivo = true;
+			if(p.equals("")){
+				p = "nao existe";
+			}
+			Path path1 = Paths.get(p + ".txt");
+			{	
+			try (Scanner sc = new Scanner(Files.newBufferedReader(path1, Charset.defaultCharset()))){	
+				//Criando variáveis para seta o player.
+				sc.useDelimiter("[,]");
+			    String nome = null;
+			    String classe = null;
+			    int forc = 0;
+			    int agi = 0;
+			    int sab = 0;
+			    //Lendo e setando o player.
+			    nome = sc.next();
+			    classe = sc.next();
+			    forc = Integer.parseInt(sc.next());
+			    agi = Integer.parseInt(sc.next());
+			    sab = Integer.parseInt(sc.next());
+			    Personagem.player.setPersonagem(nome, classe, forc, agi, sab);
+			    erroAtivo = false;          
+			}catch (IOException x) {
+				JOptionPane.showMessageDialog(null, "Este Personagem não existe.");
+				erroAtivo = true;
+				personagemNome.setText("");
+			}
+			}			
+			if(erroAtivo == false){
 			//Cria tela da Aventura
 			setVisible(false);
 			masterFrame.setBounds(300,120,750,400);
@@ -143,6 +178,7 @@ public class JTelaMenu extends JPanel {
 			
 			masterFrame.remove(masterFrame.pred);
 			masterFrame.add(masterFrame.pred);
+			}
 		}
 				
 	}

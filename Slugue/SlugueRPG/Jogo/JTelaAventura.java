@@ -3,6 +3,7 @@ package Jogo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -32,6 +33,7 @@ public class JTelaAventura extends JPanel {
 	private JTextField campoJogador;
 	private JMenuBar barraMenu;
 	private Personagem player;
+	private ArrayList<String> batalha;
 
 	public JTelaAventura(Personagem player, FramePrincipal master){
 		//Setando o principal frame
