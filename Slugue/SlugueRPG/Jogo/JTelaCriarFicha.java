@@ -438,7 +438,10 @@ public class JTelaCriarFicha extends JPanel {
 				
 				Personagem aux = new Personagem(Personagem.player.getNome(), Personagem.player.getClasse(), Personagem.player.getForc(),
 						Personagem.player.getAgi(), Personagem.player.getSab(), Personagem.player.getArma());
-				Jogadores.listaJogadores.put(aux.getNome(), aux);
+				Jogadores.jog.getLista().put(aux.getNome(), aux);
+				Jogadores.jogadores = Jogadores.jog.toString();
+				Jogadores.jog.limparTelaJogadores();
+				//Jogadores.jog.gravarJogadores();
 			}
 		}
 	}

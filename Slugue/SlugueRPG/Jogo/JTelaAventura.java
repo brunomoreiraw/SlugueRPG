@@ -3,7 +3,6 @@ package Jogo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -33,7 +32,8 @@ public class JTelaAventura extends JPanel {
 	private JTextField campoJogador;
 	private JMenuBar barraMenu;
 	private Personagem player;
-	private ArrayList<String> batalha;
+	//private ArrayList<String> batalha;
+	private JVerFicha ficha;
 
 	public JTelaAventura(Personagem player, FramePrincipal master){
 		//Setando o principal frame
@@ -271,8 +271,15 @@ public class JTelaAventura extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JVerFicha f = new JVerFicha(player);
-			f.setVisible(true);	
+			if(JVerFicha.etapa == 0){
+				ficha = new JVerFicha(player);
+				ficha.setVisible(true);
+				JVerFicha.etapa = 1;
+			}
+			else if(JVerFicha.etapa == 1){
+				ficha.setVisible(false);
+				JVerFicha.etapa = 0;
+			}
 		}
 	}
 	

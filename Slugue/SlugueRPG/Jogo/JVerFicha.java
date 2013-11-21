@@ -20,6 +20,7 @@ public class JVerFicha extends JFrame {
 	private JPanel panel;
 	private JTextArea ficha;
 	private Personagem player;
+	static int etapa;
 
 	public JVerFicha(Personagem p) {
 		this.player = p;

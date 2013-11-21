@@ -133,8 +133,15 @@ public class FramePrincipal extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Jogadores jog = new Jogadores();
-			jog.setVisible(true);
+			if(Jogadores.etapa == 0){
+				Jogadores.jog.criarTelaJogadores();
+				Jogadores.jog.setVisible(true);
+				Jogadores.etapa = 1;
+			}
+			else if(Jogadores.etapa == 1){
+				Jogadores.jog.setVisible(false);
+				Jogadores.etapa = 0;
+			}
 		}
 	}
 	
