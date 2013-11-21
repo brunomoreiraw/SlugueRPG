@@ -1,7 +1,8 @@
 package Jogo;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ import javax.swing.border.TitledBorder;
 public class Jogadores extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-	static ArrayList<Personagem> listaJogadores = new ArrayList<Personagem>();
+	static Map<String, Personagem> listaJogadores = new HashMap<String, Personagem> ();
 	private JTextArea jogs;
     private JPanel pane;
 	
@@ -41,11 +42,7 @@ public class Jogadores extends JFrame {
 	}
 	
 	public String toString(){
-		String aux = null;
-		for(int i = 0; i < listaJogadores.size(); i++){
-			aux = aux + listaJogadores.get(i).getNome() + "\n";
-		}
-		return aux;
+		return listaJogadores.keySet().toString().replace('[', ' ').replace(',', '\n').replace(']', ' ');
 	}
 	
 	

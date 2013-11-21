@@ -435,7 +435,10 @@ public class JTelaCriarFicha extends JPanel {
 					System.err.format("Erro de E/S: %s%n", x);
 				}
 				
-				Jogadores.listaJogadores.add(Personagem.player);
+				
+				Personagem aux = new Personagem(Personagem.player.getNome(), Personagem.player.getClasse(), Personagem.player.getForc(),
+						Personagem.player.getAgi(), Personagem.player.getSab(), Personagem.player.getArma());
+				Jogadores.listaJogadores.put(aux.getNome(), aux);
 			}
 		}
 	}
