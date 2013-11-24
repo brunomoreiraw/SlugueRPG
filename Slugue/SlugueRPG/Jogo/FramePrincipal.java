@@ -23,6 +23,7 @@ public class FramePrincipal extends JFrame {
 	public JPanel pred;
 	public JTelaMenu telaMenu;
 	private JMenuBar barraMenu;
+	private Jogadores jog = new Jogadores();
 	private final Action actionSobre = new SwingActionSobre();
 	private final Action actionJogadores = new SwingActionJogadores();
 	private final Action actionSair = new SwingActionSair();
@@ -134,12 +135,14 @@ public class FramePrincipal extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(Jogadores.etapa == 0){
-				Jogadores.jog.criarTelaJogadores();
-				Jogadores.jog.setVisible(true);
+				jog.setVisible(true);
+				jog.gravarJogadores();
+				jog.lerJogadores(jog);
 				Jogadores.etapa = 1;
 			}
 			else if(Jogadores.etapa == 1){
-				Jogadores.jog.setVisible(false);
+				jog.setVisible(false);
+				jog.limpaCampo();
 				Jogadores.etapa = 0;
 			}
 		}

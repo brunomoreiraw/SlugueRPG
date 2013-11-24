@@ -427,21 +427,14 @@ public class JTelaCriarFicha extends JPanel {
 				classeR.setEnabled(false);
 	
 				// Gravação da Ficha
-				Path path1 = Paths.get(nomeR.getText() + ".txt");
+				Path path1 = Paths.get("Personagens/" + nomeR.getText() + ".txt");
 				try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) {
 					writer.print(Personagem.player.getNome() + "," + Personagem.player.getClasse() + "," +
 							Personagem.player.getForc() + "," + Personagem.player.getAgi() + "," + Personagem.player.getSab() );
 				} catch (IOException x) {
 					System.err.format("Erro de E/S: %s%n", x);
 				}
-				
-				
-				Personagem aux = new Personagem(Personagem.player.getNome(), Personagem.player.getClasse(), Personagem.player.getForc(),
-						Personagem.player.getAgi(), Personagem.player.getSab(), Personagem.player.getArma());
-				Jogadores.jog.getLista().put(aux.getNome(), aux);
-				Jogadores.jogadores = Jogadores.jog.toString();
-				Jogadores.jog.limparTelaJogadores();
-				//Jogadores.jog.gravarJogadores();
+							
 			}
 		}
 	}

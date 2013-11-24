@@ -143,8 +143,7 @@ public class JTelaMenu extends JPanel {
 			if(p.equals("")){
 				p = "nao existe";
 			}
-			Path path1 = Paths.get(p + ".txt");
-			{	
+			Path path1 = Paths.get(p + ".txt");{	
 			try (Scanner sc = new Scanner(Files.newBufferedReader(path1, Charset.defaultCharset()))){	
 				//Criando variáveis para seta o player.
 				sc.useDelimiter("[,]");
@@ -165,8 +164,8 @@ public class JTelaMenu extends JPanel {
 				JOptionPane.showMessageDialog(null, "Este Personagem não existe.");
 				erroAtivo = true;
 				personagemNome.setText("");
-			}
-			}			
+			}}
+			
 			if(erroAtivo == false){
 			//Cria tela da Aventura
 			setVisible(false);
