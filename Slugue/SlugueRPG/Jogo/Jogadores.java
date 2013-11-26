@@ -1,6 +1,8 @@
 package Jogo;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,10 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class Jogadores extends JFrame {
@@ -24,6 +31,11 @@ public class Jogadores extends JFrame {
 	private Map<String, Personagem> listaJogadores = new HashMap<String, Personagem> ();
     private JPanel pane = new JPanel();
     private JTextArea areaJogadores;
+    private JButton botaoExcluir;
+    private JTextField personagemNome;
+    private JButton btnOk;
+    private final Action actionExcluir = new SwingActionExluir();
+    private final Action actionOk = new SwingActionOk();
     File f = new File("Personagens");
     File[] paths;
     static int etapa;
@@ -32,6 +44,8 @@ public class Jogadores extends JFrame {
 	
 	public Jogadores() {
 		this.setBounds(1000, 170, 190, 300);
+		GroupLayout layout = new GroupLayout(pane);
+		pane.setLayout(layout);		
 		TitledBorder titledBorder = BorderFactory.createTitledBorder(" Lista de Jogadores ");
 		titledBorder.setTitleColor(Color.LIGHT_GRAY);
 		pane.setBackground(Color.black);
@@ -44,9 +58,23 @@ public class Jogadores extends JFrame {
 		areaJogadores = new JTextArea();
 		areaJogadores.setEnabled(false);
 		areaJogadores.setDisabledTextColor(Color.white);
-		areaJogadores.setBounds(9, 20, 170, 270);
+		areaJogadores.setBounds(9, 20, 160, 203);
 		areaJogadores.setBackground(Color.black);
 		pane.add(areaJogadores);
+		
+		//Botão para excluir jogador
+		botaoExcluir = new JButton();
+		botaoExcluir.setAction(actionExcluir);
+		botaoExcluir.setBounds(24, 225, 130, 25);
+		pane.add(botaoExcluir);
+		
+		//Botão Ok, aparece após selecionar Jogar Aventura
+		btnOk = new JButton("OK");
+		btnOk.setAction(actionOk);
+		btnOk.setBounds(118, 225, 50, 25);
+		btnOk.setVisible(false);
+		pane.add(btnOk);
+		
 	}
 
 	//Método que grava todos o jogadores existentes na pasta Personagens
@@ -107,5 +135,56 @@ public class Jogadores extends JFrame {
 	
 	public String toString(){
 		return listaJogadores.keySet().toString().replace('[', ' ').replace(',', '\n').replace(']', ' ');
+	}
+	
+	/**
+	 * Botão para Exluir Jogador.
+	 */
+	private class SwingActionExluir extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingActionExluir() {
+			putValue(NAME, "Excluir Jogador");
+			putValue(SHORT_DESCRIPTION, "Exclua");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			botaoExcluir.setVisible(false);
+			personagemNome = new JTextField(0);
+			personagemNome.setBounds(7, 225, 110, 25);
+			personagemNome.setFont(new Font("arial", Font.BOLD, 12));
+			personagemNome.setHorizontalAlignment(JTextField.CENTER);
+			personagemNome.setForeground(Color.green);
+			personagemNome.setBackground(new Color(29, 31, 36));
+			personagemNome.setBorder(BorderFactory.createLineBorder(Color.green));
+			pane.add(personagemNome);
+			
+			btnOk.setVisible(true);
+		}
+	}
+	
+	/**
+	* Botão OK, após personagem escolhido.
+	*/
+	private class SwingActionOk extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+			
+		public SwingActionOk() {
+			putValue(NAME, "Ok");
+			putValue(SHORT_DESCRIPTION, "Confirme");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String aux = personagemNome.getText() + ".txt";
+			Path path1 = Paths.get("Personagens\\" + aux);{	
+				try (Scanner sc = new Scanner(Files.newBufferedReader(path1, Charset.defaultCharset()))){	
+					     
+				}catch (IOException x) {
+					System.err.format("Erro de E/S: %s%n", x);
+				}}
+		}
+				
 	}
 }

@@ -32,7 +32,6 @@ public class JTelaAventura extends JPanel {
 	private JTextField campoJogador;
 	private JMenuBar barraMenu;
 	private Personagem player;
-	//private ArrayList<String> batalha;
 	private JVerFicha ficha;
 
 	public JTelaAventura(Personagem player, FramePrincipal master){
@@ -124,17 +123,18 @@ public class JTelaAventura extends JPanel {
 
 		private int etapa;
 		private int batalha;
+		private Etapas cpu;
 
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
 			putValue(SHORT_DESCRIPTION, "Confirme");
+			cpu = new Etapas();
 			etapa = 0;
 			batalha = 0;
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			String texto = campoJogador.getText();
-			//String[] palavras = texto.split(" ");
 			texto = texto.trim();
 			if (etapa == 0) {
 				if(texto.equalsIgnoreCase("Sim")){
@@ -168,92 +168,45 @@ public class JTelaAventura extends JPanel {
 				if(texto.equalsIgnoreCase("Seguir em frente")){
 					campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
 							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas."
-							+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar arma?\n");
+							+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar sua arma?");
 					etapa++;
 				}
 			}
 			else if (etapa == 3) {
 				Enemy aranha = new Enemy("Aranha Gigante", 14, 4, 14);
+				
 				//BATALHA 00
 				if(batalha == 0){
-					
 					if(texto.equalsIgnoreCase("Sim")){
-						campoMestre.append("\nVocê saca sua/seu " + player.getArma().getNome() + ". Rolando iniciativa...\n");
-						int jogP = player.d20();
-						int jogE = aranha.d20();
-						campoMestre.append("\nSua rolagem: " + jogP + " | Rolagem do Inimigo: " + jogE + "\n");
-						if(jogP > jogE){
-							campoMestre.append("\nVocê ganhou a iniciativa, o que quer fazer?\n");
+						campoMestre.append(cpu.sacarArma(player));
+						String aux = cpu.rolaIniciativa(player, aranha);
+						if(aux.equals("0")){
+							campoMestre.append(cpu.batalha.get(8));
+							campoMestre.append(cpu.eAtaque(player, aranha));
 							batalha++;
 						}
 						else {
-							campoMestre.append("\nA Aranha gigante ganhou a iniciativa. ");
-							if(aranha.d20() >= player.getDefesa()){
-								aranha.atacar(player);
-								if(player.getPv() == 0){
-									campoMestre.append("\n" + player.getNome() + "a Aranha te atinge com um golpe mortal, você morre.");
-									etapa = 0;
-								} else campoMestre.append ("\nSeu inimigo consegue cravar as presas em seu braço, você acabou sofrendo dano.\nO que quer fazer?");
-							} else {
-								campoMestre.append("\nSeu inimigo tentou atacar você, com um rápido reflexo conseguiu desviar."
-										+ "\nO que quer fazer?");
-							}
-							batalha++;							
-						}
-					
-					} else if (texto.equalsIgnoreCase("Não")){
-							if(aranha.d20() >= player.getDefesa()){
-								aranha.atacar(player);
-								if(player.getPv() == 0){
-									campoMestre.append("\n" + player.getNome() + ", a Aranha te atinge com um golpe mortal, você morre.");
-									etapa = 0;
-								} else campoMestre.append("\nVocê tomou um ataque surpresa, e acabou sofrendo dano.");
-							} else {
-								campoMestre.append("\nA Aranha tentou atacar você, com um rápido reflexo conseguiu desviar.");
-							}
-						campoMestre.append("\nO que quer fazer?\n");
-						batalha++;
-					} 
-				}
-					//BATALHA 01
-					else if(batalha == 1){
-						if(texto.equalsIgnoreCase("Atacar")){
-							int jogP = player.d20();
-							campoMestre.append("\nSua rolagem: " + jogP + "\n");
-							if(jogP > aranha.getDefesa()){
-								player.atacar(aranha);
-								if(aranha.getPvsEnemy() > 0){
-								campoMestre.append("\nVocê consegue desferir um ataque em seu Inimigo. Inflinge " + player.getArma().getDano() + " pontos de dano.\n");
-								batalha++;
-								} else if(aranha.getPvsEnemy() == 0) { 
-									campoMestre.append("\nCom um ataque fatal, você atinge seu Inimigo, ele está morto.");
-									etapa++;
-								}
-							}
-							else {
-								campoMestre.append("\nVocê desfere o ataque, mas a Aranha é mais rápida e reflete.\n");
-								batalha++;
-							}
-						} else if(texto.equalsIgnoreCase("Nada")){
+							campoMestre.append(aux);
 							batalha++;
 						}
 					}
-					//BATALHA 02
-					else if(batalha == 2){
-						int jogE = aranha.d20();
-						if(jogE > player.getDefesa()){
-							aranha.atacar(player);
-							if(player.getPv() == 0){
-								campoMestre.append("\n" + player.getNome() + ", a Aranha te atinge com um golpe mortal, você morre.\n");
-								etapa = 0;
-							} else campoMestre.append("\nA Aranha crava as presas em sua perna, você acabou sofrendo dano.\n"
-									+ "\nO que deseja fazer?");
-							
-						} else campoMestre.append("\nA Aranha tenta cravar suas presas em sua perna, você consegue refletir.\n"
-								+ "\nO que deseja fazer?");
-							batalha = 1;
-						}
 				}
+				
+				//BATALHA 01 - ATAQUE DO PERSONAGEM
+				else if(batalha == 1){
+					if(texto.equalsIgnoreCase("Atacar")){
+						campoMestre.append(cpu.pAtaque(player, aranha));
+					} 
+					campoMestre.append(" Prosseguir?");
+					batalha++;
+				}
+				
+				//BATALHA 02 - ATAQUE DO INIMIGO
+				else if(batalha == 2){
+					campoMestre.append(cpu.eAtaque(player, aranha));
+					batalha = 1;
+				}		
+			} 
 			campoJogador.setText("");
 		}		
 	}

@@ -143,7 +143,7 @@ public class JTelaMenu extends JPanel {
 			if(p.equals("")){
 				p = "nao existe";
 			}
-			Path path1 = Paths.get(p + ".txt");{	
+			Path path1 = Paths.get("Personagens\\" + p + ".txt");{	
 			try (Scanner sc = new Scanner(Files.newBufferedReader(path1, Charset.defaultCharset()))){	
 				//Criando variáveis para seta o player.
 				sc.useDelimiter("[,]");

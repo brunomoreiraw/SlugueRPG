@@ -195,12 +195,16 @@ public class Personagem {
 		return d20;
 	}
 	
-	public void atacar(Enemy e){
-			int d = e.getPvsEnemy() - arma.danoInf(this);
+	public int atacar(Enemy e){
 			
-			if(d > 0) {
-				e.setPvsEnemy(d);
-			}else e.setPvsEnemy(0);
+		int dano =  arma.danoInf(this);
+		int vidaAtual = e.getPvsEnemy() - dano;
+			
+		if(vidaAtual > 0) {
+			e.setPvsEnemy(vidaAtual);
+		}else e.setPvsEnemy(0);
+		
+		return dano;
 	}
 	
 	public void setPersonagem(String n, String c, int f, int a, int s){

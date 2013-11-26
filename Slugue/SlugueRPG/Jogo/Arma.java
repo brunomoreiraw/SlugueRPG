@@ -6,6 +6,7 @@ public class Arma {
 	private String nome;
 	private int dano;
 	private char tipo;
+	private Random rola = new Random();
 	
 	public Arma(String nome, int dano, char tipo){
 		setNome(nome);
@@ -31,9 +32,7 @@ public class Arma {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	Random rola = new Random();
-	
+		
 	public int danoInf(Personagem p){
 		int damage = 0;
 		int dado = rola.nextInt(dano);

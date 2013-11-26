@@ -339,12 +339,13 @@ public class JTelaCriarFicha extends JPanel {
 	private class SwingActionCalcular extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 		private boolean erroAtivo;
+		private String at[] = new String[3];;
 		
 		public SwingActionCalcular() {
 			putValue(NAME, "Calcular e Gravar Ficha");
 			putValue(SHORT_DESCRIPTION, "Calcular e Gravar");
 		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) throws IllegalArgumentException, NullPointerException {
 			String classe = (String) classeR.getSelectedItem();
@@ -353,6 +354,10 @@ public class JTelaCriarFicha extends JPanel {
 				
 			try {
 					//Validação nome do personagem
+					at[0] = forcR.getText();
+					at[1] = agiR.getText();
+					at[2] = sabR.getText();
+					
 					nomeR.getText().trim();
 					if(nomeR.getText().equals("")){
 						throw new NullPointerException();
@@ -372,7 +377,7 @@ public class JTelaCriarFicha extends JPanel {
 						agiR.setText(rolagem5.getText());
 					} else if (agiR.getText().equalsIgnoreCase("C")) {
 						agiR.setText(rolagem6.getText());
-					}
+					} 
 					//Atribui Sabedoria
 					if (sabR.getText().equalsIgnoreCase("A")) {
 						sabR.setText(rolagem4.getText());
@@ -383,6 +388,12 @@ public class JTelaCriarFicha extends JPanel {
 					}
 					else 
 						throw new IllegalArgumentException();
+					
+					//Verifica atributos com carcteres iguais
+					if(at[0].equalsIgnoreCase(at[1])||at[0].equalsIgnoreCase(at[2])||at[1].equalsIgnoreCase(at[2])){			
+						throw new IllegalArgumentException();
+					}
+							
 				}catch (NullPointerException ex2){
 					erroAtivo = true;
 					JOptionPane.showMessageDialog(null, "O nome não deve ficar vazio.");
@@ -391,7 +402,7 @@ public class JTelaCriarFicha extends JPanel {
 					forcR.setText("");
 					agiR.setText("");
 					sabR.setText("");
-					JOptionPane.showMessageDialog(null, "Dados de entrada inválidos.\nDistribua as tags A, B e C nos atributos.");
+					JOptionPane.showMessageDialog(null, "Dados de entrada inválidos.\nDistribua as tags A, B e C nos atributos unicamente.");
 					}
 				
 			//Após válidas as informações, seta a classe, para a Classe personagem fazer os cálculos.	
