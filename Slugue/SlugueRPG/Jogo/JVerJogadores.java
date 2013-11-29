@@ -25,7 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-public class Jogadores extends JFrame {
+public class JVerJogadores extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private Map<String, Personagem> listaJogadores = new HashMap<String, Personagem> ();
@@ -42,7 +42,7 @@ public class Jogadores extends JFrame {
     static String jogadores;
     
 	
-	public Jogadores() {
+	public JVerJogadores() {
 		this.setBounds(1000, 170, 190, 300);
 		GroupLayout layout = new GroupLayout(pane);
 		pane.setLayout(layout);		
@@ -91,7 +91,7 @@ public class Jogadores extends JFrame {
 	}
 	
 	//Método que lê todos os Personagens gravados no arquivo Lista_Jogadores.txt
-	public void lerJogadores(Jogadores jog){
+	public void lerJogadores(JVerJogadores jog){
 		String jogadores[] = new String[10];
 		int i = 0;
 		
@@ -177,13 +177,28 @@ public class Jogadores extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String aux = personagemNome.getText() + ".txt";
-			Path path1 = Paths.get("Personagens\\" + aux);{	
-				try (Scanner sc = new Scanner(Files.newBufferedReader(path1, Charset.defaultCharset()))){	
-					     
+			String aux = "Personagens/" + personagemNome.getText() + ".txt";
+			String aux1 = "Personagens\\" + personagemNome.getText() + ".txt";
+			File file1 = new File(aux1);
+			file1.delete();
+			personagemNome.setText("");
+			
+			/**
+			Path path3 = Paths.get(aux);{	
+				try (Scanner scs = new Scanner(Files.newBufferedReader(path3, Charset.defaultCharset()))){	
+					scs.useDelimiter("[,]");
+				    String nome = scs.next();
+				    String classe = scs.next();
+				    int forc = Integer.parseInt(scs.next());
+				    int agi = Integer.parseInt(scs.next());
+				    int sab = Integer.parseInt(scs.next());
+				    Personagem aux2 = new Personagem(nome, classe, forc, agi, sab, new Arma("Desarmado", 2, 't'));
+				    FramePrincipal.jog.listaJogadores.remove(aux2);
 				}catch (IOException x) {
 					System.err.format("Erro de E/S: %s%n", x);
-				}}
+				}
+			} **/
+			
 		}
 				
 	}

@@ -17,3 +17,4 @@ Armas:
 07 - Arma machadoG = new Arma("Machado Grande", 8, 'c');
 08 - Arma machadoD = new Arma("Machado Duplo", 12, 'c');
 09 - Arma cajado = new Arma("Cajado", 6, 'm');
+10 - Arma maçaL = new Arma("Maça Leve", 8, 'c');

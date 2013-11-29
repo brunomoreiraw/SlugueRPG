@@ -18,7 +18,7 @@ public class Arma {
 		return dano;
 	}
 	public void setDano(int dano) {
-		this.dano = dano;
+		this.dano = dano - 1;
 	}
 	public char getTipo() {
 		return tipo;
@@ -34,8 +34,8 @@ public class Arma {
 	}
 		
 	public int danoInf(Personagem p){
-		int damage = 0;
-		int dado = rola.nextInt(dano);
+		int damage = 1;
+		int dado = 1 + rola.nextInt(dano);
 		if(tipo == 'c'){
 			damage = p.getForc() + dado;
 		}

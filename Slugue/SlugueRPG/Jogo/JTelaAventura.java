@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -33,6 +34,8 @@ public class JTelaAventura extends JPanel {
 	private JMenuBar barraMenu;
 	private Personagem player;
 	private JVerFicha ficha;
+	private JMenuItem escM1;
+	private JMenuItem escM2;
 
 	public JTelaAventura(Personagem player, FramePrincipal master){
 		//Setando o principal frame
@@ -67,6 +70,14 @@ public class JTelaAventura extends JPanel {
 		opcoesM.setForeground(Color.white);
 		barraMenu.add(opcoesM);
 		
+		//Menu Escolha 1 - Opções
+		escM1 = new JMenuItem("Sim");
+		opcoesM.add(escM1);
+				
+		//Menu Escolha 2 - Opções
+		escM2 = new JMenuItem("Não");
+		opcoesM.add(escM2);
+		
 		//Menu Ajuda
 		JMenu ajudaM = new JMenu("Ajuda");
 		ajudaM.setForeground(Color.white);
@@ -76,7 +87,7 @@ public class JTelaAventura extends JPanel {
 		JMenuItem sobreM = new JMenuItem("Sobre");
 		sobreM.setAction(actionSobre);
 		ajudaM.add(sobreM);
-		
+			
 		this.add(barraMenu);
 		
 		//Button Enter e Ficha		
@@ -124,6 +135,8 @@ public class JTelaAventura extends JPanel {
 		private int etapa;
 		private int batalha;
 		private Etapas cpu;
+		private String esc1;
+		private String esc2;
 
 		public SwingActionEnter() {
 			putValue(NAME, "Enter");
@@ -133,80 +146,157 @@ public class JTelaAventura extends JPanel {
 			batalha = 0;
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) throws IllegalArgumentException{
 			String texto = campoJogador.getText();
 			texto = texto.trim();
-			if (etapa == 0) {
-				if(texto.equalsIgnoreCase("Sim")){
-					campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
-							+ "\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
-					etapa++;
+			
+			try {
+				if (etapa == 0) {
+					esc1 = "Sim";
+					esc2 = "Não";
+					escM1.setText(esc1);
+					escM2.setText(esc2);
+					
+					if(texto.equalsIgnoreCase(esc1)){
+						campoMestre.append("\nNeste momento você está perdido em uma floresta das redondezas de Urboba, um grande vilarejo da Terra Média."
+								+ "\nVocê se vê em uma clareira, voltada por mata fechada, você pode seguir para norte ou sul, qual direção quer ir?\n");
+						etapa++;
+					}
+					else if(texto.equalsIgnoreCase(esc2)){
+						campoMestre.append("\n" + player.getNome() + ", o tempo está passando." + " Vamos iniciar a aventura?\n");
+						etapa = 0;
+					}
+					else 
+						throw new IllegalArgumentException();
+					escM1.setText("Norte");
+					escM2.setText("Sul");
+					
+				} else if (etapa == 1) {
+					esc1 = "Norte";
+					esc2 = "Sul";
+					
+					if (texto.equalsIgnoreCase(esc1)){
+						campoMestre.append("\nVocê segue pela trilha Norte." + "\n");
+						campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
+									+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar ou seguir em frente?\n");
+						etapa++;
+					} 
+					else if(texto.equalsIgnoreCase(esc2)){
+						campoMestre.append("\nVocê segue pela trilha Sul." + "\n");
+						campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
+									+ "A frente você enxerga um grande portão, possivelmente de Urboba. Continua...");
+						etapa++;
+					}
+					else 
+						throw new IllegalArgumentException();
+					escM1.setText("Investigar poço");
+					escM2.setText("Seguir em frente");
+					
+				}else if (etapa == 2) {		
+					esc1 = "Investigar poço";
+					esc2 = "Seguir em frente";
+					
+					if(texto.equalsIgnoreCase(esc1)){
+						campoMestre.append("\nAo se aproximar do poço, você ouve algo estranho, algo está ecoando lá dentro."
+								+ "\nNo momento em que você põe sua cabeça, você percebe algo subindo, "
+								+ "\nUma Aranha gigante está vindo em sua direção, verticalmente. Deseja sacar sua arma?\n");
+						etapa++;
+					}
+					else if(texto.equalsIgnoreCase(esc2)){
+						campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
+								+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas."
+								+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar sua arma?");
+						etapa++;
+					}
+					else 
+						throw new IllegalArgumentException();
+					escM1.setText("Sim");
+					escM2.setText("Não");
 				}
-				if(texto.equalsIgnoreCase("Não")){
-					campoMestre.append("\n" + player.getNome() + ", o tempo está passando." + " Vamos iniciar a aventura?\n");
-					etapa = 0;
-				}
+				else if (etapa == 3) {
+					Enemy aranha = new Enemy("Aranha Gigante", 14, 4, 14);
+					
+					//BATALHA 00
+					if(batalha == 0){
+						esc1 = "Sim";
+						esc2 = "Não";
 						
-			} else if (etapa == 1) {
-				campoMestre.append("\nVocê segue pela trilha " + texto + ".\n");
-				if (texto.equalsIgnoreCase("Norte")){
-					campoMestre.append("\nA trilha é pouco iluminada e o terreno é acidentado. Você caminha por mais de 1km, onde as árvores acabam\n"
-								+ "e um grande campo verde está a sua visão. A frente há um poço abandonado, deseja investigar ou seguir em frente?\n");
-				} 
-				if(texto.equalsIgnoreCase("Sul")){
-					campoMestre.append("\nO caminho é largo e com bastante curvas, caminhando você vê que as árvores estão menos densas.\n"
-								+ "A frente você enxerga um grande portão, possivelmente de Urboba. Continua...");
-				}
-				etapa++;
-			}else if (etapa == 2) {		
-				if(texto.equalsIgnoreCase("Investigar poço")){
-					campoMestre.append("\nAo se aproximar do poço, você ouve algo estranho, algo está ecoando lá dentro."
-							+ "\nNo momento em que você põe sua cabeça, você percebe algo subindo, "
-							+ "\nUma Aranha gigante está vindo em sua direção, verticalmente. Deseja sacar sua arma?\n");
-					etapa = 3;
-				}
-				if(texto.equalsIgnoreCase("Seguir em frente")){
-					campoMestre.append("\nAo passar pelo poço, você caminha alguns metros e percebe um barulho as suas costas. "
-							+ "\nUma Aranha gigante emerge do poço em alta velocidade. Ela é repleta de pêlos e possui grandes presas."
-							+ "\nSeus olhos verdes percebem sua presença, ela vem até você. Deseja sacar sua arma?");
-					etapa++;
-				}
-			}
-			else if (etapa == 3) {
-				Enemy aranha = new Enemy("Aranha Gigante", 14, 4, 14);
-				
-				//BATALHA 00
-				if(batalha == 0){
-					if(texto.equalsIgnoreCase("Sim")){
-						campoMestre.append(cpu.sacarArma(player));
-						String aux = cpu.rolaIniciativa(player, aranha);
-						if(aux.equals("0")){
-							campoMestre.append(cpu.batalha.get(8));
+						if(texto.equalsIgnoreCase(esc1)){
+							campoMestre.append(cpu.sacarArma(player));
+							String aux = cpu.rolaIniciativa(player, aranha);
+							if(aux.equals("0")){
+								campoMestre.append(cpu.batalha.get(8));
+								campoMestre.append(cpu.eAtaque(player, aranha));
+								campoMestre.append(cpu.batalha.get(9));
+								batalha++;
+							}
+							else{
+								campoMestre.append(aux);
+								batalha++;
+							}
+						}
+						else if (texto.equalsIgnoreCase(esc2)){
 							campoMestre.append(cpu.eAtaque(player, aranha));
+							campoMestre.append(cpu.batalha.get(9));
 							batalha++;
 						}
-						else {
-							campoMestre.append(aux);
+							else 
+								throw new IllegalArgumentException();
+						escM1.setText("Atacar");
+						escM2.setText("Nada");
+						
+					}
+					
+					//BATALHA 01 - ATAQUE DO PERSONAGEM
+					else if(batalha == 1){
+						esc1 = "Atacar";
+						esc2 = "Nada";
+						
+						if(texto.equalsIgnoreCase(esc1)){
+							campoMestre.append(cpu.pAtaque(player, aranha));
+							if(batalha == 4){
+								campoMestre.append("\n\nO Jogo acabou, você derrotou o monstro.");
+							}
+							campoMestre.append(" Prosseguir?\n");
+							batalha++;
+						} 
+						else if(texto.equalsIgnoreCase(esc2)){
+							campoMestre.append(" Prosseguir?\n");
 							batalha++;
 						}
+						else if(aranha.getPvsEnemy() <= 0){
+							batalha = 4;
+						}
+						else 
+							throw new IllegalArgumentException();
+					}
+					
+					//BATALHA 02 - ATAQUE DO INIMIGO
+					else if(batalha == 2){
+						campoMestre.append(cpu.eAtaque(player, aranha));
+						if(player.getPv() <= 0){
+							batalha = 3;
+						}
+						campoMestre.append(cpu.batalha.get(9));
+						batalha = 1;
+						escM1.setText("Atacar");
+						escM2.setText("Nada");
+					}
+					
+					//BATALHA 03 - MORTE JOGADOR
+					else if(batalha == 3){
+						campoMestre.append("\n\nO Jogo acabou, você morreu.");
+					}
+					
+					//BATALHA 04 - MORTE MONSTRO
+					else if(batalha == 4){
+						campoMestre.append("\n\nO Jogo acabou, você derrotou o monstro.");
 					}
 				}
-				
-				//BATALHA 01 - ATAQUE DO PERSONAGEM
-				else if(batalha == 1){
-					if(texto.equalsIgnoreCase("Atacar")){
-						campoMestre.append(cpu.pAtaque(player, aranha));
-					} 
-					campoMestre.append(" Prosseguir?");
-					batalha++;
-				}
-				
-				//BATALHA 02 - ATAQUE DO INIMIGO
-				else if(batalha == 2){
-					campoMestre.append(cpu.eAtaque(player, aranha));
-					batalha = 1;
-				}		
-			} 
+			} catch (IllegalArgumentException ex) {
+				JOptionPane.showMessageDialog(null, "Entrada inválida.\n" + "Verifique as possiveis escolhas no menu.");
+			}
+			 
 			campoJogador.setText("");
 		}		
 	}

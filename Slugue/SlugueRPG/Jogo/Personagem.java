@@ -51,6 +51,7 @@ public class Personagem {
 			setAtaqueM(sab);
 			setPm(sab);
 			setPv(10 + forc);
+			setArma(new Arma("Espada Longa", 8, 'c'));
 		}
 		if (c.equalsIgnoreCase("Ranger")) {
 			setAtaqueCC(forc);
@@ -58,6 +59,7 @@ public class Personagem {
 			setAtaqueM(sab);
 			setPm(sab);
 			setPv(8 + forc);
+			setArma(new Arma("Arco Longo", 8, 'd'));
 		}
 		if (c.equalsIgnoreCase("Mago")) {
 			setAtaqueCC(forc);
@@ -65,6 +67,7 @@ public class Personagem {
 			setAtaqueM(sab + 2);
 			setPm(10 + sab);
 			setPv(4 + forc);
+			setArma(new Arma("Cajado", 6, 'm'));
 		}
 		if (c.equalsIgnoreCase("Clérigo")) {
 			setAtaqueCC(forc + 1);
@@ -72,6 +75,7 @@ public class Personagem {
 			setAtaqueM(sab + 1);
 			setPm(5 + sab);
 			setPv(8 + forc);
+			setArma(new Arma("Maça Leve", 8, 'c'));
 		}
 		this.classe = c;
 	}
