@@ -1,4 +1,4 @@
 SlugueRPG
 =========
 
-Jogo de RPG textual.
+Text-based RPG
